@@ -95,6 +95,7 @@ public class AdminController {
     @PostMapping(value = "/products/images")
     public void uploadProductImage(@RequestParam("id") Long productId, MultipartFile[] uploadFile) {
 
+
         for (MultipartFile multipartFile : uploadFile) {
             File checkFile = new File(multipartFile.getOriginalFilename());
 
