@@ -21,38 +21,30 @@ import java.util.UUID;
 @Component
 public class S3Uploader {
     private final AmazonS3Client amazonS3Client;
+
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;  // S3 버킷 이름
-    private String putS3(File uploadFile, String fileName) {
-        amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
-        return amazonS3Client.getUrl(bucket, fileName).toString();
-    }
-
 
     public String upload(MultipartFile multipartFile, String dirName) throws IOException {
+        File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
+                .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
 
-        File convertFile = new File("/Users/wonjongseo/Downloads/Filot-Shop/src/main/resources/static/img" +  "/" + multipartFile.getOriginalFilename());
-        System.out.println("convertFile = " + convertFile);
-        if (convertFile.createNewFile()) {
-            try (FileOutputStream fos = new FileOutputStream(convertFile)) {
-                fos.write(multipartFile.getBytes());
-            }
-        }
-
-        
-        return upload(convertFile, dirName);
+        return upload(uploadFile, dirName);
     }
 
     // S3로 파일 업로드하기
     private String upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.getName();   // S3에 저장된 파일 이름
+        String fileName = dirName + "/" + UUID.randomUUID() + "_"+uploadFile.getName();   // S3에 저장된 파일 이름
         String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
         removeNewFile(uploadFile);
         return uploadImageUrl;
     }
 
     // S3로 업로드
-
+    private String putS3(File uploadFile, String fileName) {
+        amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
+        return amazonS3Client.getUrl(bucket, fileName).toString();
+    }
 
     // 로컬에 저장된 이미지 지우기
     private void removeNewFile(File targetFile) {

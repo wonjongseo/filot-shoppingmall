@@ -12,7 +12,6 @@ import static com.fasterxml.jackson.annotation.ObjectIdGenerators.*;
 @Entity
 @Getter @Setter
 @NoArgsConstructor
-@JsonIdentityInfo(generator = IntSequenceGenerator.class, property = "id")
 public class Category extends BaseEntity{
 
     public Category(String name, List<Product> products, Category parent) {

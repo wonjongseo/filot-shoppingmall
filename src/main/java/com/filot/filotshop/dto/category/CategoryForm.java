@@ -12,5 +12,4 @@ import lombok.ToString;
 public class CategoryForm {
     private  String name;
     private String parentName;
-
 }
