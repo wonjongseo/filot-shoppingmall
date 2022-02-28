@@ -1,0 +1,26 @@
+package com.filot.filotshop.repository.category;
+
+import com.filot.filotshop.dto.category.CategoryDTO;
+import com.filot.filotshop.dto.product.ProductDTO;
+import com.filot.filotshop.entity.Category;
+import com.filot.filotshop.entity.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface CategoryRepository extends JpaRepository<Category, Long>, CategoryRepositoryCustom{
+
+     Optional<Category> findByName(String name);
+
+     List<Category> findChildrenByParentId(Long parentId);
+
+     @Query("select new com.filot.filotshop.dto.product.ProductDTO (p.id,p.name,p.price,p.size, p.imageUrl,p.amount ) from Category c join c.products p where c.name = :name")
+     List<ProductDTO> findProductByCategoryName(@Param("name") String name);
+
+     @Query("SELECT new com.filot.filotshop.dto.category.CategoryDTO(c.id,c.name) FROM Category c where c.parent is null")
+     List<CategoryDTO> findAllMainCategoriesToDTO();
+
+}
