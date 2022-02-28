@@ -12,10 +12,8 @@ public class ProductForm {
     private String name;
     private int price;
     private  int amount;
-    private String imageUrls ;
     private String size;
     private  String description;
-    private  String imageUrl;
     private String color;
     private String categoryName;
 

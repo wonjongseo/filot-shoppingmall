@@ -3,6 +3,7 @@ package com.filot.filotshop.service;
 import com.filot.filotshop.config.secuity.JwtTokenProvider;
 import com.filot.filotshop.dto.basket.BasketDTO;
 import com.filot.filotshop.dto.basket.BasketForm;
+import com.filot.filotshop.dto.product.DetailProductDTO;
 import com.filot.filotshop.dto.product.ProductDTO;
 import com.filot.filotshop.dto.product.ProductForm;
 import com.filot.filotshop.entity.Basket;
@@ -50,13 +51,13 @@ class serviceTest {
     public void 상품등록한다(){
         form = ProductForm.
                 builder()
-                .imageUrl("")
+
                 .amount(1000)
                 .name("빨간 상의")
                 .description("빨간 상의 입니다")
                 .price(10000)
                 .categoryName("BEST")
-                .imageUrls("aa,bb,cc")
+
                 .build();
         Product product = productService.addProduct(form);
         System.out.println("product = " + product);
@@ -94,7 +95,6 @@ class serviceTest {
     public void 상품조회한다(){
         form = ProductForm.
             builder()
-            .imageUrl("")
             .amount(1000)
             .name(productName)
             .description("빨간 상의 입니다")

@@ -1,6 +1,7 @@
 package com.filot.filotshop.controller;
 
 import com.filot.filotshop.dto.category.CategoryForm;
+import com.filot.filotshop.dto.product.DetailProductDTO;
 import com.filot.filotshop.dto.product.ProductDTO;
 import com.filot.filotshop.dto.product.ProductForm;
 import com.filot.filotshop.entity.Category;
@@ -40,10 +41,10 @@ public class ProductServiceTest {
             .name("테스트 상품!2!") //
             .price(10000)
             .amount(1000)
-            .imageUrls("a,b,c,d")
+
             .size("90,95,100")
             .description("테스트 상품입니다")
-            .imageUrl("")
+
             .color("red,green,blue")
             .categoryName("BEST")
             .build();

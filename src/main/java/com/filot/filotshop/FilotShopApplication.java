@@ -1,5 +1,6 @@
 package com.filot.filotshop;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -15,7 +16,9 @@ public class FilotShopApplication {
             "spring.config.location=" +
                     "classpath:application.yml," +
                     "classpath:aws.yml";
+
     public static void main(String[] args) {
+
 //        SpringApplication.run(FilotShopApplication.class, args);
         new SpringApplicationBuilder(FilotShopApplication.class)
                 .properties(APPLICATION_LOCATIONS)

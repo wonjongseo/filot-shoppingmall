@@ -16,6 +16,7 @@ public enum ErrorCode {
 
     INVALID_REQUEST(BAD_REQUEST ,"입력한 정보로부터 에러가 발생했습니다."),
     INVALID_REQUEST_SORT(BAD_REQUEST, "해당 방법으로 조회 할 수 없습니다"),
+    INVALID_REQUEST_IMAGE(BAD_REQUEST ,"파일 형식이 옳바르지 않습니다."),
     //조건을  장바구니에서 ORDER로 바꿔야함
     INVALID_REQUEST_REVIEW(BAD_REQUEST, "상품 리뷰를 쓰기 위해선 주문을 하셔야합니다"),
     MISMATCH_REFRESH_TOKEN(BAD_REQUEST, "리프레시 토큰의 유저 정보가 일치하지 않습니다"),

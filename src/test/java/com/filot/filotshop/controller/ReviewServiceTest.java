@@ -3,6 +3,7 @@ package com.filot.filotshop.controller;
 
 import com.filot.filotshop.dto.ReviewDTO;
 import com.filot.filotshop.dto.ReviewForm;
+import com.filot.filotshop.dto.product.DetailProductDTO;
 import com.filot.filotshop.dto.product.ProductForm;
 import com.filot.filotshop.dto.user.JoinForm;
 import com.filot.filotshop.entity.Product;

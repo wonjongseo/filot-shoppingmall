@@ -21,11 +21,11 @@ public class Product  extends  BaseEntity{
         Product product = new Product();
         product.setName(productForm.getName());
         product.setAmount(productForm.getAmount());
-//        product.setImageUrls(productForm.getImageUrls());
-        product.setImageUrl(productForm.getImageUrl());
+
         product.setDescription(productForm.getDescription());
         product.setPrice(productForm.getPrice());
         product.setSize(productForm.getSize());
+        product.setColor(productForm.getColor());
 
         return product;
     }
@@ -47,8 +47,8 @@ public class Product  extends  BaseEntity{
     private  int amount;
     //    @Lob
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<FileImage> imageUrls = new ArrayList<>();
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    private List<Image> images = new ArrayList<>();
 
     private String size;
 
@@ -57,8 +57,9 @@ public class Product  extends  BaseEntity{
 
     private  String imageUrl;
 
+    private String color;
 
-//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+
     @ManyToOne
     @JoinColumn(name = "CATEGORY_PRODUCT_ID")
     private Category category;
