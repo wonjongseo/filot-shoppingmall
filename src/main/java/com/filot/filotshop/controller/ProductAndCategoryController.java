@@ -71,7 +71,7 @@ public class ProductAndCategoryController {
     public DetailProductDTO showProductById(@PathVariable(name = "product_id") Long id) {
         System.out.println("id = " + id);
         Product product = productService.findProductById(id);
-        return DetailProductDTO.createProductDTO(product);
+        return DetailProductDTO.createDetailProductDTO(product);
     }
 
 

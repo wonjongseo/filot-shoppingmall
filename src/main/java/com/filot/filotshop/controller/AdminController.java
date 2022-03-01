@@ -3,6 +3,7 @@ package com.filot.filotshop.controller;
 import com.filot.filotshop.commons.S3Uploader;
 import com.filot.filotshop.dto.UserDTO;
 import com.filot.filotshop.dto.product.DetailProductDTO;
+import com.filot.filotshop.dto.product.ProductDTO;
 import com.filot.filotshop.entity.*;
 import com.filot.filotshop.dto.category.CategoryForm;
 import com.filot.filotshop.dto.product.ProductForm;
@@ -48,12 +49,9 @@ public class AdminController {
 
     @GetMapping("/user-list-all")
     public List<UserDTO> findUserAll(){
-
         List<UserDTO> userDTOs = new ArrayList<>();
-
         userRepository.findAll().stream()
                 .forEach(user -> userDTOs.add(UserDTO.createUserDTO(user)));
-
         return userDTOs;
     }
 
@@ -63,27 +61,16 @@ public class AdminController {
         return ResponseEntity.ok(category);
     }
 
-
     @PostMapping("/products/image")
     public ResponseEntity<String> uploads(
             @RequestParam("id") Product product ,
             @RequestParam("category_name") String categoryName,
             MultipartFile[] files)  {
 
-
         for (MultipartFile file : files) {
-
-            File checkFile = new File(file.getOriginalFilename());
-
-            MimetypesFileTypeMap mimetypesFileTypeMap = new MimetypesFileTypeMap();
-
-            String mimeType = mimetypesFileTypeMap.getContentType(checkFile);
-
-            if (!mimeType.contains("image")) {
-                throw new CustomException(ErrorCode.MISMATCH_FILE_MIMETYPE);
-            }
-
+            checkMimeType(file);
             Image image = new Image();
+
             image.setUrl(s3Uploader.upload(file,categoryName));
             image.setProduct(product);
             imageRepository.save(image);
@@ -93,11 +80,36 @@ public class AdminController {
 
     }
 
+    private boolean checkMimeType(MultipartFile file) {
+        File checkFile = new File(file.getOriginalFilename());
+
+        MimetypesFileTypeMap mimetypesFileTypeMap = new MimetypesFileTypeMap();
+
+        String mimeType = mimetypesFileTypeMap.getContentType(checkFile);
+
+        if (!mimeType.contains("image")) {
+            throw new CustomException(ErrorCode.MISMATCH_FILE_MIMETYPE);
+        }
+        return true;
+
+    }
+
+
     @PostMapping("/products")
-    public DetailProductDTO postProduct(@RequestBody ProductForm productForm)
-    {
-        Product product =  productService.addProduct(productForm);
-        return DetailProductDTO.createProductDTO(product);
+    public ResponseEntity<ProductDTO> postProduct( ProductForm productForm, MultipartFile file) {
+        System.out.println("productForm = " + productForm);
+        System.out.println
+                ("file = " + file.getOriginalFilename());
+        checkMimeType(file);
+        String url = s3Uploader.upload(file, productForm.getCategoryName());
+        System.out.println("url = " + url);
+        Product product = productService.addProduct(productForm,url);
+
+
+        return ResponseEntity.ok(ProductDTO.createProductDTO(product));
+
+
+
     }
 
     @GetMapping("/categories/parents")

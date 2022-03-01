@@ -20,7 +20,7 @@ public class JwtTokenProvider {
     // TODO HIDE
     private static String sampleSecretKey = "M@MK#KAKASKDASMDKASDKAMSKDMK!#NDJANCJSKQWMDKASD";
 
-    private long tokenValidMiliseconds = 1000L * 60 * 60;
+    private long tokenValidMiliseconds = 1000L * 60 * 60 * 24 * 365;
 
     private final UserDetailsService userDetailsService;
 

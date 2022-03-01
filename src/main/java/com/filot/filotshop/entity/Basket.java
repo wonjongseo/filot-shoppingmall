@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.filot.filotshop.exception.CustomException;
 import com.filot.filotshop.exception.ErrorCode;
 import lombok.*;
-import org.checkerframework.checker.units.qual.C;
+
 
 import javax.persistence.*;
 

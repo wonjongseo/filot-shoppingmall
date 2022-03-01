@@ -34,7 +34,18 @@ public class ProductService {
 
     @Transactional
     public Product addProduct(ProductForm productForm) {
-        Product product = Product.createProduct(productForm);
+//        Product product = Product.createProduct(productForm);
+//        Category category = categoryRepository.findByName(productForm.getCategoryName())
+//                .orElseThrow(() -> new CustomException(ErrorCode.CATEGORY_NOT_FOUND));
+//        product.setCategory(category);
+//
+//        return   productRepository.save(product);
+    return  null;
+
+    }
+    @Transactional
+    public Product addProduct(ProductForm productForm, String url) {
+        Product product = Product.createProduct(productForm,url);
         Category category = categoryRepository.findByName(productForm.getCategoryName())
                 .orElseThrow(() -> new CustomException(ErrorCode.CATEGORY_NOT_FOUND));
         product.setCategory(category);

@@ -17,11 +17,11 @@ import static com.fasterxml.jackson.annotation.ObjectIdGenerators.*;
 @NoArgsConstructor
 public class Product  extends  BaseEntity{
 
-    public static Product createProduct(ProductForm productForm) {
+    public static Product createProduct(ProductForm productForm, String url) {
         Product product = new Product();
         product.setName(productForm.getName());
         product.setAmount(productForm.getAmount());
-
+        product.setImageUrl(url);
         product.setDescription(productForm.getDescription());
         product.setPrice(productForm.getPrice());
         product.setSize(productForm.getSize());

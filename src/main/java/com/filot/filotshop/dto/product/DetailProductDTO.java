@@ -10,20 +10,22 @@ import java.util.List;
 @Data
 public class DetailProductDTO {
 
-    public static DetailProductDTO createProductDTO(Product product) {
+    public static DetailProductDTO createDetailProductDTO(Product product) {
         DetailProductDTO detailProductDTO = new DetailProductDTO();
         detailProductDTO.setId(product.getId());
         detailProductDTO.setName(product.getName());
         detailProductDTO.setPrice(product.getPrice());
+
         detailProductDTO.images = new ArrayList<>();
 
         List<Image> images = product.getImages();
         for (Image image : images) {
             detailProductDTO.images.add(image.getUrl());
         }
-        detailProductDTO.setDescription(product.getDescription());
 
+        detailProductDTO.setDescription(product.getDescription());
         detailProductDTO.colors = new ArrayList<>();
+
         String colors = product.getColor();
         String[] splitedColor = colors.split(",");
         for (String color : splitedColor) {
@@ -39,7 +41,9 @@ public class DetailProductDTO {
     private String name;
     private int price;
     private String size;
+
     private List<String> images;
+
     private String description;
     private List<String> colors;
 

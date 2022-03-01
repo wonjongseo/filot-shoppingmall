@@ -14,8 +14,8 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
 
     //TODO RE
     @Override
-    public List<ProductDTO> findAllProductsJsonType() {
-        return em.createQuery("select new com.filot.filotshop.dto.product.ProductDTO (p.id, p.name, p.price, p.size, p.imageUrl,p.amount) FROM Product p", ProductDTO.class).getResultList();
+    public List findAllProductsJsonType() {
+        return em.createQuery("select  new com.filot.filotshop.dto.product.ProductDTO (p.id, p.name, p.price, p.size,p. imageUrl ,p.amount) FROM Product p   ").getResultList();
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
 
     @Override
     public List<ProductDTO> findProductsSortedByPriceASC(String categoryName, Integer page, Integer size) {
-        return em.createQuery("select new com.filot.filotshop.dto.product.ProductDTO (p.id, p.name, p.price, p.size, p.imageUrl) " +
+        return em.createQuery("select new com.filot.filotshop.dto.product.ProductDTO (p.id, p.name, p.price, p.size, p.imageUrl,p.amount) " +
                         "from Category c join c.products p where c.name = :name order by p.price asc ")
                 .setParameter("name", categoryName)
                 .setFirstResult(page)
@@ -40,7 +40,7 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
 
     @Override
     public List<ProductDTO> findProductsSortedByPriceDESC(String categoryName, Integer page, Integer size) {
-        return em.createQuery("select new com.filot.filotshop.dto.product.ProductDTO (p.id, p.name, p.price, p.size, p.imageUrl) " +
+        return em.createQuery("select new com.filot.filotshop.dto.product.ProductDTO (p.id, p.name, p.price, p.size, p.imageUrl,p.amount) " +
                 "from Category c join c.products p where c.name = :name order by p.price desc")
                 .setParameter("name", categoryName)
                 .setFirstResult(page)
@@ -50,7 +50,7 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
 
     @Override
     public List<ProductDTO> findProductsSortedByNewest(String categoryName, Integer page, Integer size) {
-        return em.createQuery("select new com.filot.filotshop.dto.product.ProductDTO (p.id, p.name, p.price, p.size, p.imageUrl) " +
+        return em.createQuery("select new com.filot.filotshop.dto.product.ProductDTO (p.id, p.name, p.price, p.size, p.imageUrl,p.amount) " +
                         "from Category c join c.products p where c.name = :name order by p.createAt desc")
                 .setParameter("name", categoryName)
                 .setFirstResult(page)

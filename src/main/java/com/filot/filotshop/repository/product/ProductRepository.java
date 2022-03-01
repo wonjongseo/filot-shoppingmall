@@ -12,7 +12,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> , Produc
 
     Product findByName(String name);
 
-    @Query("select new com.filot.filotshop.dto.product.ProductDTO (p.id,p.name,p.price,p.size, p.imageUrl, p.amount) from Product p")
+    @Query("select new com.filot.filotshop.dto.product.ProductDTO (p.id,p.name,p.price,p.size, i.url, p.amount) from Product p inner  join p.images i")
     List<ProductDTO> findAllToDTO();
 
 
