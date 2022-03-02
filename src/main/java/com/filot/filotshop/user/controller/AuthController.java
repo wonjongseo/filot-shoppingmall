@@ -47,7 +47,7 @@ public class AuthController {
 
     @PostMapping("mail-test-join")
     @ResponseBody
-    public void mailJoin(JoinForm userForm , HttpServletRequest request) {
+    public void mailJoin(@RequestBody JoinForm userForm , HttpServletRequest request) {
         System.out.println("userForm = " + userForm);
         userService.duplicateUser(userForm.getEmail());
 
