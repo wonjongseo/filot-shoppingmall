@@ -15,7 +15,7 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
     //TODO RE
     @Override
     public List findAllProductsJsonType() {
-        return em.createQuery("select  new com.filot.filotshop.dto.product.ProductDTO (p.id, p.name, p.price, p.size,p. imageUrl ,p.amount) FROM Product p   ").getResultList();
+        return em.createQuery("select  new com.filot.filotshop.product.entity.ProductDTO (p.id, p.name, p.price, p.size,p. imageUrl ,p.amount) FROM Product p   ").getResultList();
     }
 
     @Override
