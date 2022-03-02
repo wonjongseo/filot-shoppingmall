@@ -17,11 +17,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
-    // TODO HIDE
+
     private static String sampleSecretKey = "M@MK#KAKASKDASMDKASDKAMSKDMK!#NDJANCJSKQWMDKASD";
-
     private long tokenValidMiliseconds = 1000L * 60 * 60 * 24 * 365;
-
     private final UserDetailsService userDetailsService;
 
     public static String getUserEmail(HttpServletRequest request){
@@ -35,9 +33,12 @@ public class JwtTokenProvider {
     }
 
     public String createToken(String userPk, List<String > roles){
+
         Claims claims = Jwts.claims().setSubject(userPk);
         claims.put("roles", roles);
+
         Date now = new Date();
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)

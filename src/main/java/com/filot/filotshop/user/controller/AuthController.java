@@ -1,12 +1,15 @@
 package com.filot.filotshop.user.controller;
 
 import com.filot.filotshop.config.secuity.JwtTokenProvider;
+import com.filot.filotshop.exception.CustomException;
+import com.filot.filotshop.exception.ErrorCode;
 import com.filot.filotshop.user.entity.LoginForm;
 import com.filot.filotshop.user.entity.JoinForm;
 import com.filot.filotshop.user.entity.User;
 import com.filot.filotshop.config.mail.MailService;
 import com.filot.filotshop.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -45,17 +48,18 @@ public class AuthController {
     @PostMapping("mail-test-join")
     @ResponseBody
     public void mailJoin(JoinForm userForm , HttpServletRequest request) {
+        System.out.println("userForm = " + userForm);
         userService.duplicateUser(userForm.getEmail());
-
 
         HttpSession httpSession = request.getSession(true);
         httpSession.setAttribute("userForm", userForm);
 
         String authKey = mailService.mailSend(userForm.getEmail(), "[FILOT SHOP 회원가입 인증]");
         httpSession.setAttribute("authKey", authKey);
-
+        ResponseEntity.status(201);
 
     }
+
     @GetMapping("/verify-code")
     public String verifyForm(){
         return "verify";
@@ -63,8 +67,9 @@ public class AuthController {
 
     @PostMapping("/verify-code")
     @ResponseBody
-    public String verifyEmail(@RequestBody String code, HttpServletRequest request) {
+    public ResponseEntity<String> verifyEmail(@RequestBody String code, HttpServletRequest request) {
 
+        System.out.println("code = " + code);
         String[] strings = code.split("=");
 
         HttpSession session = request.getSession(true);
@@ -77,10 +82,13 @@ public class AuthController {
             if (authKey.equals(strings[1])) {
                 user = userService.join(userForm);
             }
+            else{
+                throw new CustomException(ErrorCode.MISMATCH_VERIFY_CODE);
+            }
         }
 
+        return ResponseEntity.status(201).body(user.getEmail());
 
-        return user != null ? user.getEmail() : null;
     }
 
 
