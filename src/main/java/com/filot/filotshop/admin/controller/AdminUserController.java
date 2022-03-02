@@ -24,7 +24,7 @@ public class AdminUserController {
     private final AdminService adminService;
     // 모든 유저 조회
 
-    @GetMapping("/user-list-all")
+    @GetMapping("/all")
     public List<UserDTO> findUserAll(){
         List<UserDTO> userDTOs = new ArrayList<>();
         userRepository.findAll().stream()
