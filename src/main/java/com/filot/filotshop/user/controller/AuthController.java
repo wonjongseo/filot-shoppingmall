@@ -107,14 +107,5 @@ public class AuthController {
         }
         return true;
     }
-    @GetMapping("/aaaa")
-    @ResponseBody
-    public String aaaa(HttpServletRequest request){
-        String s = jwtTokenProvider.resolveToken(request);
-        String userPk = jwtTokenProvider.getUserPk(s);
 
-        System.out.println("s = " + s);
-        System.out.println("userPk = " + userPk);
-        return s;
-    }
 }

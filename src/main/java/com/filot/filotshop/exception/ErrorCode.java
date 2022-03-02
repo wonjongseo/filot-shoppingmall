@@ -40,9 +40,10 @@ public enum ErrorCode {
 
     NOT_ENOUGH_AMOUNT(BAD_REQUEST, "매장 내 수량이 부족합니다"),
 
+    // 401
+    USER_NOT_FOUND(UNAUTHORIZED, "해당 유저 정보를 찾을 수 없습니다"),
 
     /* 404 NOT_FOUND : Resource 를 찾을 수 없음 */
-    USER_NOT_FOUND(NOT_FOUND, "해당 유저 정보를 찾을 수 없습니다"),
     PRODUCT_NOT_FUND(NOT_FOUND,"해당 상품을 찾을 수 없습니다"),
     MISMATCH_ENUM(NOT_FOUND, "필드 잘못된 접근입니다."),
     REFRESH_TOKEN_NOT_FOUND(NOT_FOUND, "로그아웃 된 사용자입니다"),
