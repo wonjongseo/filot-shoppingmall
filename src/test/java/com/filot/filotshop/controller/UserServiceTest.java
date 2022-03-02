@@ -1,10 +1,10 @@
 package com.filot.filotshop.controller;
 
-import com.filot.filotshop.dto.user.JoinForm;
-import com.filot.filotshop.entity.Address;
-import com.filot.filotshop.entity.User;
-import com.filot.filotshop.service.AdminService;
-import com.filot.filotshop.service.UserService;
+import com.filot.filotshop.user.entity.JoinForm;
+import com.filot.filotshop.user.entity.Address;
+import com.filot.filotshop.user.entity.User;
+import com.filot.filotshop.admin.service.AdminService;
+import com.filot.filotshop.user.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

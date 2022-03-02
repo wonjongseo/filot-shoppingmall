@@ -1,17 +1,16 @@
 package com.filot.filotshop.controller;
 
 import com.filot.filotshop.config.secuity.JwtTokenProvider;
-import com.filot.filotshop.dto.ReviewDTO;
-import com.filot.filotshop.dto.ReviewForm;
-import com.filot.filotshop.entity.Basket;
-import com.filot.filotshop.entity.Review;
-import com.filot.filotshop.entity.User;
+import com.filot.filotshop.review.entity.ReviewDTO;
+import com.filot.filotshop.review.entity.ReviewForm;
+import com.filot.filotshop.basket.entity.Basket;
+import com.filot.filotshop.review.entity.Review;
+import com.filot.filotshop.user.entity.User;
 import com.filot.filotshop.exception.CustomException;
 import com.filot.filotshop.exception.ErrorCode;
-import com.filot.filotshop.repository.UserRepository;
-import com.filot.filotshop.service.ReviewService;
+import com.filot.filotshop.user.repository.UserRepository;
+import com.filot.filotshop.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

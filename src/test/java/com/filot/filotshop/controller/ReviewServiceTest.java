@@ -1,18 +1,17 @@
 package com.filot.filotshop.controller;
 
 
-import com.filot.filotshop.dto.ReviewDTO;
-import com.filot.filotshop.dto.ReviewForm;
-import com.filot.filotshop.dto.product.DetailProductDTO;
-import com.filot.filotshop.dto.product.ProductForm;
-import com.filot.filotshop.dto.user.JoinForm;
-import com.filot.filotshop.entity.Product;
-import com.filot.filotshop.entity.Review;
-import com.filot.filotshop.entity.User;
-import com.filot.filotshop.repository.ReviewRepository;
-import com.filot.filotshop.repository.product.ProductRepository;
-import com.filot.filotshop.service.ProductService;
-import com.filot.filotshop.service.UserService;
+import com.filot.filotshop.review.entity.ReviewDTO;
+import com.filot.filotshop.review.entity.ReviewForm;
+import com.filot.filotshop.product.entity.ProductForm;
+import com.filot.filotshop.user.entity.JoinForm;
+import com.filot.filotshop.product.entity.Product;
+import com.filot.filotshop.review.entity.Review;
+import com.filot.filotshop.user.entity.User;
+import com.filot.filotshop.review.controller.ReviewRepository;
+import com.filot.filotshop.product.repository.ProductRepository;
+import com.filot.filotshop.product.service.ProductService;
+import com.filot.filotshop.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,7 +132,7 @@ public class ReviewServiceTest {
 
     @Test
     public void 상품_리뷰_DTO로_반환(){
-        String jpql = "select NEW com.filot.filotshop.dto.ReviewDTO(r.id, r.title,r.rate,r.createAt,u.name) From Product p inner join p.reviews r inner join r.user u where p.id = :id";
+        String jpql = "select NEW com.filot.filotshop.review.entity.ReviewDTO(r.id, r.title,r.rate,r.createAt,u.name) From Product p inner join p.reviews r inner join r.user u where p.id = :id";
         List<ReviewDTO> productId = em.createQuery(jpql, ReviewDTO.class).setParameter("id", 82L).getResultList();
         for (ReviewDTO reviewDTO : productId) {
             System.out.println("reviewDTO = " + reviewDTO);

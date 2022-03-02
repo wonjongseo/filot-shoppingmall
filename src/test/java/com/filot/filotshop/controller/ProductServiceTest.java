@@ -1,14 +1,13 @@
 package com.filot.filotshop.controller;
 
-import com.filot.filotshop.dto.category.CategoryForm;
-import com.filot.filotshop.dto.product.DetailProductDTO;
-import com.filot.filotshop.dto.product.ProductDTO;
-import com.filot.filotshop.dto.product.ProductForm;
-import com.filot.filotshop.entity.Category;
-import com.filot.filotshop.entity.Product;
-import com.filot.filotshop.repository.category.CategoryRepository;
-import com.filot.filotshop.service.CategoryService;
-import com.filot.filotshop.service.ProductService;
+import com.filot.filotshop.category.entity.CategoryForm;
+import com.filot.filotshop.product.entity.ProductDTO;
+import com.filot.filotshop.product.entity.ProductForm;
+import com.filot.filotshop.category.entity.Category;
+import com.filot.filotshop.product.entity.Product;
+import com.filot.filotshop.category.repository.CategoryRepository;
+import com.filot.filotshop.category.service.CategoryService;
+import com.filot.filotshop.product.service.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -38,7 +38,7 @@ public enum ErrorCode {
 
     NOT_ENOUGH_MONEY(UNAUTHORIZED, "현재 내 계정 정보가 존재하지 않습니다"),
 
-    NOT_ENOUGH_AMOUNT(BAD_REQUEST, "매장 내 ~~가 부족합니다"),
+    NOT_ENOUGH_AMOUNT(BAD_REQUEST, "매장 내 수량이 부족합니다"),
 
 
     /* 404 NOT_FOUND : Resource 를 찾을 수 없음 */

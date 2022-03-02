@@ -1,17 +1,16 @@
 package com.filot.filotshop.controller;
 
 
-import com.filot.filotshop.dto.basket.BasketDTO;
-import com.filot.filotshop.dto.basket.BasketForm;
-import com.filot.filotshop.dto.product.DetailProductDTO;
-import com.filot.filotshop.dto.product.ProductForm;
-import com.filot.filotshop.dto.user.JoinForm;
-import com.filot.filotshop.entity.Basket;
-import com.filot.filotshop.entity.Product;
-import com.filot.filotshop.entity.User;
-import com.filot.filotshop.service.BasketService;
-import com.filot.filotshop.service.ProductService;
-import com.filot.filotshop.service.UserService;
+import com.filot.filotshop.basket.entity.BasketDTO;
+import com.filot.filotshop.basket.entity.BasketForm;
+import com.filot.filotshop.product.entity.ProductForm;
+import com.filot.filotshop.user.entity.JoinForm;
+import com.filot.filotshop.basket.entity.Basket;
+import com.filot.filotshop.product.entity.Product;
+import com.filot.filotshop.user.entity.User;
+import com.filot.filotshop.basket.service.BasketService;
+import com.filot.filotshop.product.service.ProductService;
+import com.filot.filotshop.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

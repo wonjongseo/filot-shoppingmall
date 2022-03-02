@@ -1,19 +1,14 @@
 package com.filot.filotshop.controller;
 
 import com.filot.filotshop.config.secuity.JwtTokenProvider;
-import com.filot.filotshop.dto.basket.BasketDTO;
-import com.filot.filotshop.dto.basket.BasketForm;
-import com.filot.filotshop.repository.BasketRepository;
-import com.filot.filotshop.repository.UserRepository;
-import com.filot.filotshop.repository.product.ProductRepository;
-import com.filot.filotshop.service.BasketService;
-import com.filot.filotshop.service.UserService;
+import com.filot.filotshop.basket.entity.BasketForm;
+import com.filot.filotshop.basket.service.BasketService;
+import com.filot.filotshop.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

@@ -1,11 +1,11 @@
 package com.filot.filotshop.controller;
 
-import com.filot.filotshop.dto.ProductsCategoriesDTO;
-import com.filot.filotshop.entity.User;
-import com.filot.filotshop.repository.UserRepository;
-import com.filot.filotshop.service.CategoryService;
-import com.filot.filotshop.service.MainService;
-import com.filot.filotshop.service.ProductService;
+import com.filot.filotshop.commons.entity.ProductsCategoriesDTO;
+import com.filot.filotshop.user.entity.User;
+import com.filot.filotshop.user.repository.UserRepository;
+import com.filot.filotshop.category.service.CategoryService;
+import com.filot.filotshop.commons.service.MainService;
+import com.filot.filotshop.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

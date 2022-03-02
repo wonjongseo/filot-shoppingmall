@@ -1,15 +1,17 @@
 package com.filot.filotshop.service;
 
+import com.filot.filotshop.basket.service.BasketService;
 import com.filot.filotshop.config.secuity.JwtTokenProvider;
-import com.filot.filotshop.dto.basket.BasketDTO;
-import com.filot.filotshop.dto.basket.BasketForm;
-import com.filot.filotshop.dto.product.DetailProductDTO;
-import com.filot.filotshop.dto.product.ProductDTO;
-import com.filot.filotshop.dto.product.ProductForm;
-import com.filot.filotshop.entity.Basket;
-import com.filot.filotshop.entity.Product;
-import com.filot.filotshop.repository.product.ProductRepository;
-import com.filot.filotshop.repository.UserRepository;
+import com.filot.filotshop.basket.entity.BasketDTO;
+import com.filot.filotshop.basket.entity.BasketForm;
+import com.filot.filotshop.product.entity.ProductDTO;
+import com.filot.filotshop.product.entity.ProductForm;
+import com.filot.filotshop.basket.entity.Basket;
+import com.filot.filotshop.product.entity.Product;
+import com.filot.filotshop.product.repository.ProductRepository;
+import com.filot.filotshop.product.service.ProductService;
+import com.filot.filotshop.user.repository.UserRepository;
+import com.filot.filotshop.user.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,11 +1,9 @@
 package com.filot.filotshop.controller;
 
-import com.filot.filotshop.dto.product.ProductDTO;
-import com.filot.filotshop.entity.Category;
-import com.filot.filotshop.entity.EmailCheck;
-import com.filot.filotshop.entity.Product;
-import com.filot.filotshop.repository.EmailCheckRepository;
-import com.filot.filotshop.repository.UserRepository;
+import com.filot.filotshop.product.entity.ProductDTO;
+import com.filot.filotshop.commons.entity.EmailCheckDTO;
+import com.filot.filotshop.commons.repository.EmailCheckRepository;
+import com.filot.filotshop.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +22,7 @@ public class JPQLTest {
 
     @Test
     public void 카테고리이름으로_제품_찾는다(){
-        String jpql = "select new com.filot.filotshop.dto.product.ProductDTO (p.id,p.name,p.price,p.size, p.imageUrl) from Category c join c.products p where c.name = :name";
+        String jpql = "select new com.filot.filotshop.product.entity.ProductDTO (p.id,p.name,p.price,p.size, p.imageUrl) from Category c join c.products p where c.name = :name";
 
         List<ProductDTO> resultList = em.createQuery(jpql, ProductDTO.class).setParameter("name", "BEST").getResultList();
         for (ProductDTO product : resultList) {
@@ -34,7 +32,7 @@ public class JPQLTest {
 
     @Test
     public void 정렬해서_상품_보여준다() {
-        String jpql = "select new com.filot.filotshop.dto.product.ProductDTO (p.id,p.name,p.price,p.size, p.imageUrl) from Category c join c.products p where c.name = :name ";
+        String jpql = "select new com.filot.filotshop.product.entity.ProductDTO (p.id,p.name,p.price,p.size, p.imageUrl) from Category c join c.products p where c.name = :name ";
 
         jpql += "order by p.price desc";
 //        jpql += "order by p.createdAt";
@@ -59,7 +57,7 @@ public class JPQLTest {
     @Test
     @Rollback(value = false)
     public void addEmailCode(){
-        EmailCheck emailCheck = new EmailCheck();
+        EmailCheckDTO emailCheck = new EmailCheckDTO();
         emailCheck.setEmail("visionwill");
         emailCheck.setCode("1234");
         emailCheckRepository.save(emailCheck);
