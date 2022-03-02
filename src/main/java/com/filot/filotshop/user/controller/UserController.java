@@ -4,6 +4,7 @@ import com.filot.filotshop.config.secuity.JwtTokenProvider;
 import com.filot.filotshop.basket.entity.BasketDTO;
 import com.filot.filotshop.user.entity.User;
 import com.filot.filotshop.basket.service.BasketService;
+import com.filot.filotshop.user.entity.UserDTO;
 import com.filot.filotshop.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class UserController {
     private final JwtTokenProvider jwtTokenProvider;
     private final BasketService basketService;
 
-  // ok
+    // ok
     @PostMapping("/check-mail")
     public ResponseEntity<String> checkEmail(@RequestParam(name = "email") String email) {
         User user = userService.findUserByEmail(email);
@@ -30,23 +31,29 @@ public class UserController {
         if (user == null) {
             return new ResponseEntity<>(email, HttpStatus.OK);
         }
-        return new ResponseEntity<>(email,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(email, HttpStatus.BAD_REQUEST);
     }
 
-//ok
+    //ok
     @GetMapping("/baskets")
     public List<BasketDTO> showUserBasket(HttpServletRequest request) {
         String userEmail = jwtTokenProvider.getUserEmail(request);
         return basketService.getAllBasket(userEmail);
     }
-// ok
+
+    // ok
     @PutMapping("/baskets/{baskets-id}")
     public void updateProductCnt(
             HttpServletRequest request,
             @PathVariable(name = "baskets-id") Long basketId, @RequestParam(name = "cnt", required = false) Integer cnt) {
         System.out.println("cnt = " + cnt);
         String userEmail = jwtTokenProvider.getUserEmail(request);
-        userService.changeProductCount(userEmail,basketId, cnt);
+        userService.changeProductCount(userEmail, basketId, cnt);
     }
 
+    @GetMapping("/{user_email}")
+    public ResponseEntity<UserDTO> getUserDetail(@PathVariable(name = "user_email") String email) {
+        User user = userService.findUserByEmail(email);
+        return ResponseEntity.ok(UserDTO.createUserDTO(user));
+    }
 }
