@@ -65,11 +65,11 @@ public String mailSend(String to, String subject) {
             htmlContent+= "</div>";
             mailHandler.setText(htmlContent, true);
 
-            mailHandler.setAttach("newTest.txt", "static/originTest.txt");
-            mailHandler.setInline("filot", "static/img/teamIcon.jpg");
+//            mailHandler.setAttach("newTest.txt", "static/originTest.txt");
+//            mailHandler.setInline("filot", "static/img/teamIcon.jpg");
 
             mailHandler.send();
-        } catch (MessagingException | IOException e) {
+        } catch (MessagingException e) {
             e.printStackTrace();
         }
         return authKey;

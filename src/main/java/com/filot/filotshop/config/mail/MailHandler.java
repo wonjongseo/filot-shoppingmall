@@ -39,18 +39,18 @@ public class MailHandler {
         messageHelper.setText(text, useHtml);
     }
 
-    public void setAttach(String displayFileName, String pathToAttachment) throws IOException, MessagingException {
-        File file = new ClassPathResource(pathToAttachment).getFile();
-        FileSystemResource fsr = new FileSystemResource(file);
-
-        messageHelper.addAttachment(displayFileName, fsr);
-    }
-
-    public void setInline(String contentId, String pathToInline) throws MessagingException, IOException {
-        File file = new ClassPathResource(pathToInline).getFile();
-        FileSystemResource fsr = new FileSystemResource(file);
-        messageHelper.addInline(contentId,fsr);
-    }
+//    public void setAttach(String displayFileName, String pathToAttachment) throws IOException, MessagingException {
+//        File file = new ClassPathResource(pathToAttachment).getFile();
+//        FileSystemResource fsr = new FileSystemResource(file);
+//
+//        messageHelper.addAttachment(displayFileName, fsr);
+//    }
+//
+//    public void setInline(String contentId, String pathToInline) throws MessagingException, IOException {
+//        File file = new ClassPathResource(pathToInline).getFile();
+//        FileSystemResource fsr = new FileSystemResource(file);
+//        messageHelper.addInline(contentId,fsr);
+//    }
 
     public void send(){
         try {
