@@ -1,8 +1,10 @@
 cloud:
   aws:
     credentials:
-      accessKey: AKIA2LW236WZKYH6BKGN
-      secretKey: 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
+#      accessKey: AKIA2LW236WZKYH6BKGN
+      accessKey: ${AWS_SECRET_KEY}
+#      secretKey: 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
+      secretKey: ${AWS_SECRET_KEY}
     s3:
       bucket: filotshopping
     region:
