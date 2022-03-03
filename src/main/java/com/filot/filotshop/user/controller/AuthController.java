@@ -76,10 +76,16 @@ public class AuthController {
         System.out.println("in verify");
 
         System.out.println("code = " + code);
+        Cookie[] cookies = request.getCookies();
+        if(cookies.length >0){
+            for (Cookie cookie : cookies) {
+                System.out.println("cookie = " + cookie);
+            }
+        }
         HttpSession session = request.getSession(true);
 
         String authKey = (String) session.getAttribute("authKey");
-
+        System.out.println("authKey = " + authKey);
         JoinForm userForm = (JoinForm) session.getAttribute("userForm");
         System.out.println("userForm = " + userForm);
         User user = null;
