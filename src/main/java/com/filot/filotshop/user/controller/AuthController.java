@@ -73,11 +73,16 @@ public class AuthController {
     @PostMapping("/verify-code/{code}")
     @ResponseBody
     public ResponseEntity<String> verifyEmail(@PathVariable(name = "code") String code, HttpServletRequest request) {
-        System.out.println("in verify");
-
+        String referer = request.getHeader("referer");
+        String cookie1 = request.getHeader("cookie");
+        if(cookie1 != null)
+            System.out.println("cookie1 = " + cookie1);
+        if(referer != null)
+            System.out.println(referer);
         System.out.println("code = " + code);
+
         Cookie[] cookies = request.getCookies();
-        if(cookies.length >0){
+        if(cookies.length >0 && cookies!=null){
             for (Cookie cookie : cookies) {
                 System.out.println("cookie = " + cookie);
             }
