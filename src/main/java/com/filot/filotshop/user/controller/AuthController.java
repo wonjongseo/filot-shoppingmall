@@ -118,13 +118,12 @@ public class AuthController {
 
     @GetMapping("/join/dup")
     @ResponseBody
-    public ResponseEntity duplicateEmail(String email) {
-        User user = userService.findUserByEmail(email);
-
-        if(user!=null){
-            return (ResponseEntity) ResponseEntity.status(HttpStatus.OK);
+    public ResponseEntity<Boolean> duplicateEmail(String email) {
+        boolean existUser = userService.duplicateUser(email);
+        if(existUser){
+            return ResponseEntity.status(HttpStatus.OK).body(!existUser);
         }
-        return (ResponseEntity) ResponseEntity.status(HttpStatus.UNAUTHORIZED);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(existUser);
     }
 
 }

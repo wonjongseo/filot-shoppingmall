@@ -47,12 +47,12 @@ public class UserService  implements UserDetailsService {
     }
 
     public boolean duplicateUser(String email) {
-        boolean user =  userRepository.findByEmail(email).isPresent();
+        boolean user = userRepository.findByEmail(email).isPresent();
+        if (user == false) {
+            return true;
 
-        if (user) {
-            throw new CustomException(ErrorCode.DUPLICATE_USER);
         }
-        return true;
+        return false;
 
     }
 
@@ -60,9 +60,6 @@ public class UserService  implements UserDetailsService {
     public  User findUserByEmail(String email){
         return userRepository.findByEmail(email).orElseThrow(()-> new CustomException(ErrorCode.USER_NOT_FOUND));
     }
-
-
-
 
     public int changeProductCount(String userEmail, Long basketId, Integer cnt) {
         if(cnt < 0) throw new CustomException(ErrorCode.INVALID_REQUEST);
