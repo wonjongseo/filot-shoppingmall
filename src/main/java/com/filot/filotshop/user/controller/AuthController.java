@@ -52,11 +52,6 @@ public class AuthController {
     public void mailJoin(@RequestBody JoinForm userForm , HttpServletRequest request) {
         System.out.println("in mail-test-join userForm = " + userForm);
 
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            System.out.println("in mail - cookie = " + cookie);
-        }
-
 
         userService.duplicateUser(userForm.getEmail());
 
@@ -78,6 +73,16 @@ public class AuthController {
     @PostMapping("/verify-code")
     @ResponseBody
     public ResponseEntity<String> verifyEmail(@RequestBody Map<String,String> code, HttpServletRequest request) {
+        System.out.println("in verify");
+
+        Cookie[] cookies = request.getCookies();
+
+        if(cookies.length > 0){
+            for (Cookie cookie : cookies) {
+                System.out.println("in verify - cookie = " + cookie);
+            }
+        }
+
 
 
         System.out.println("code.get(\"code\") = " + code.get("code"));
