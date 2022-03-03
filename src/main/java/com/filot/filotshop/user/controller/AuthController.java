@@ -116,7 +116,7 @@ public class AuthController {
         return jwtTokenProvider.createToken(foundUser.getEmail(), foundUser.getRoles());
     }
 
-    @GetMapping("/join")
+    @GetMapping("/join/dup")
     @ResponseBody
     public ResponseEntity duplicateEmail(String email) {
         User user = userService.findUserByEmail(email);
