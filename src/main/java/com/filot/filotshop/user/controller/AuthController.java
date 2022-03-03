@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
@@ -50,11 +51,18 @@ public class AuthController {
     @ResponseBody
     public void mailJoin(@RequestBody JoinForm userForm , HttpServletRequest request) {
         System.out.println("in mail-test-join userForm = " + userForm);
+
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            System.out.println("in mail - cookie = " + cookie);
+        }
+
+
         userService.duplicateUser(userForm.getEmail());
 
         HttpSession httpSession = request.getSession(true);
         httpSession.setAttribute("userForm", userForm);
-        
+
         String authKey = mailService.mailSend(userForm.getEmail(), "[FILOT SHOP 회원가입 인증]");
         System.out.println("in mail-test-join authKey = " + authKey);
         httpSession.setAttribute("authKey", authKey);
