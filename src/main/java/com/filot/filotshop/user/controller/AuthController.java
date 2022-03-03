@@ -72,7 +72,7 @@ public class AuthController {
 
     @PostMapping("/verify-code")
     @ResponseBody
-    public ResponseEntity<String> verifyEmail(@RequestBody Map<String,String> code, HttpServletRequest request) {
+    public ResponseEntity<String> verifyEmail( Map<String,String> code, HttpServletRequest request) {
         System.out.println("in verify");
 
         Cookie[] cookies = request.getCookies();
