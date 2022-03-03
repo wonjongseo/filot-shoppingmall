@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -48,7 +49,7 @@ public class AuthController {
     @PostMapping("mail-test-join")
     @ResponseBody
     public void mailJoin(@RequestBody JoinForm userForm , HttpServletRequest request) {
-        System.out.println("userForm = " + userForm);
+
         userService.duplicateUser(userForm.getEmail());
 
         HttpSession httpSession = request.getSession(true);
@@ -67,27 +68,36 @@ public class AuthController {
 
     @PostMapping("/verify-code")
     @ResponseBody
-    public ResponseEntity<String> verifyEmail(@RequestBody String code, HttpServletRequest request) {
+    public ResponseEntity<String> verifyEmail(@RequestBody Map<String,String> code, HttpServletRequest request) {
 
-        System.out.println("code = " + code);
-        String[] strings = code.split("=");
+
+        System.out.println("code.get(\"code\") = " + code.get("code"));
+
 
         HttpSession session = request.getSession(true);
+
         String authKey = (String) session.getAttribute("authKey");
 
         JoinForm userForm = (JoinForm) session.getAttribute("userForm");
+        System.out.println("userForm = " + userForm);
         User user = null;
 
+
         if (authKey != null) {
-            if (authKey.equals(strings[1])) {
+            if (authKey.equals(code.get("code"))) {
                 user = userService.join(userForm);
             }
             else{
                 throw new CustomException(ErrorCode.MISMATCH_VERIFY_CODE);
             }
         }
+        if (user != null) {
 
-        return ResponseEntity.status(201).body(user.getEmail());
+            return ResponseEntity.status(201).body(user.getEmail());
+        }
+        else {
+            throw new CustomException(ErrorCode.MISMATCH_VERIFY_CODE);
+        }
 
     }
 
