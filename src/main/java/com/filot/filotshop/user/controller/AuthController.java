@@ -49,13 +49,14 @@ public class AuthController {
     @PostMapping("mail-test-join")
     @ResponseBody
     public void mailJoin(@RequestBody JoinForm userForm , HttpServletRequest request) {
-
+        System.out.println("in mail-test-join userForm = " + userForm);
         userService.duplicateUser(userForm.getEmail());
 
         HttpSession httpSession = request.getSession(true);
         httpSession.setAttribute("userForm", userForm);
-
+        
         String authKey = mailService.mailSend(userForm.getEmail(), "[FILOT SHOP 회원가입 인증]");
+        System.out.println("in mail-test-join authKey = " + authKey);
         httpSession.setAttribute("authKey", authKey);
         ResponseEntity.status(201);
 

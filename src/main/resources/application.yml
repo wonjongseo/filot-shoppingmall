@@ -5,20 +5,20 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/FILOT_SHOP
-#    username: root
-#    password: dnjswhdtj1!
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
-    url: ${CLEARDB_DATABASE_URL}
+    url: jdbc:mysql://localhost:3306/FILOT_SHOP
+    username: root
+    password: dnjswhdtj1!
+#    username: ${DATABASE_USERNAME}
+#    password: ${DATABASE_PASSWORD}
+#    url: ${CLEARDB_DATABASE_URL}
 
   mail:
     host: smtp.gmail.com
     port: 587
-#    username: visionwill3322@gmail.com
-#    password: pozohiqjzzcoaqjg
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
+    username: visionwill3322@gmail.com
+    password: pozohiqjzzcoaqjg
+#    username: ${MAIL_USERNAME}
+#    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
