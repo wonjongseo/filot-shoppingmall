@@ -70,23 +70,10 @@ public class AuthController {
         return "verify";
     }
 
-    @PostMapping("/verify-code/{code}")
+    @PostMapping("/verify-code")
     @ResponseBody
-    public ResponseEntity<String> verifyEmail(@PathVariable(name = "code") String code, HttpServletRequest request) {
-        String referer = request.getHeader("referer");
-        String cookie1 = request.getHeader("cookie");
-        if(cookie1 != null)
-            System.out.println("cookie1 = " + cookie1);
-        if(referer != null)
-            System.out.println(referer);
-        System.out.println("code = " + code);
+    public ResponseEntity<String> verifyEmail( String code, HttpServletRequest request) {
 
-        Cookie[] cookies = request.getCookies();
-        if(cookies.length >0 && cookies!=null){
-            for (Cookie cookie : cookies) {
-                System.out.println("cookie = " + cookie);
-            }
-        }
         HttpSession session = request.getSession(true);
 
         String authKey = (String) session.getAttribute("authKey");
