@@ -8,7 +8,9 @@ import com.filot.filotshop.user.entity.JoinForm;
 import com.filot.filotshop.user.entity.User;
 import com.filot.filotshop.config.mail.MailService;
 import com.filot.filotshop.user.service.UserService;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -62,7 +64,6 @@ public class AuthController {
         System.out.println("in mail-test-join authKey = " + authKey);
         httpSession.setAttribute("authKey", authKey);
         ResponseEntity.status(201);
-
     }
 
     @GetMapping("/verify-code")
@@ -115,15 +116,15 @@ public class AuthController {
         return jwtTokenProvider.createToken(foundUser.getEmail(), foundUser.getRoles());
     }
 
-    @GetMapping("/join/{email}")
+    @GetMapping("/join")
     @ResponseBody
-    public boolean duplicateEmail(@RequestParam(name = "email") String email) {
+    public ResponseEntity duplicateEmail(String email) {
         User user = userService.findUserByEmail(email);
 
         if(user!=null){
-            return false;
+            return (ResponseEntity) ResponseEntity.status(HttpStatus.OK);
         }
-        return true;
+        return (ResponseEntity) ResponseEntity.status(HttpStatus.UNAUTHORIZED);
     }
 
 }
