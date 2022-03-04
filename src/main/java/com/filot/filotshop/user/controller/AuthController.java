@@ -1,7 +1,5 @@
 package com.filot.filotshop.user.controller;
 
-import com.filot.filotshop.config.Person;
-import com.filot.filotshop.config.PersonRedisRepository;
 import com.filot.filotshop.config.secuity.JwtTokenProvider;
 import com.filot.filotshop.exception.CustomException;
 import com.filot.filotshop.exception.ErrorCode;
@@ -10,7 +8,6 @@ import com.filot.filotshop.user.entity.JoinForm;
 import com.filot.filotshop.user.entity.User;
 import com.filot.filotshop.config.mail.MailService;
 import com.filot.filotshop.user.service.UserService;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
