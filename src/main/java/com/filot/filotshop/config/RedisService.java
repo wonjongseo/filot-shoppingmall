@@ -12,7 +12,7 @@ import java.net.URISyntaxException;
 
 @Component
 public class RedisService {
-    @Value("{spring.redis.host}")
+    @Value("${spring.redis.host}")
     private String url;
 
     @Bean
