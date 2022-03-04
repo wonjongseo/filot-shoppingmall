@@ -23,6 +23,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
+
 class serviceTest {
 
     @Autowired

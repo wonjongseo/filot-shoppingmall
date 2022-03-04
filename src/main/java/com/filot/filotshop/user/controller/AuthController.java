@@ -1,5 +1,7 @@
 package com.filot.filotshop.user.controller;
 
+import com.filot.filotshop.config.Person;
+import com.filot.filotshop.config.PersonRedisRepository;
 import com.filot.filotshop.config.secuity.JwtTokenProvider;
 import com.filot.filotshop.exception.CustomException;
 import com.filot.filotshop.exception.ErrorCode;
@@ -20,6 +22,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -41,7 +44,7 @@ public class AuthController {
         User user = userService.findUserByEmail(userForm.getEmail());
         return user;
     }
-
+        private final PersonRedisRepository repo;
 
     @GetMapping("mail-test-join")
     public String joinForm(){
@@ -54,13 +57,12 @@ public class AuthController {
     public void mailJoin(@RequestBody JoinForm userForm , HttpServletRequest request) {
         System.out.println("in mail-test-join userForm = " + userForm);
 
-
         userService.duplicateUser(userForm.getEmail());
 
         HttpSession httpSession = request.getSession(true);
         httpSession.setAttribute("userForm", userForm);
 
-        String authKey = mailService.mailSend(userForm.getEmail(), "[FILOT SHOP 회원가입 인증]");
+        String authKey = mailService.mailSend(userForm.getEmail(), MailService.JOIN_MAIL);
         System.out.println("in mail-test-join authKey = " + authKey);
         httpSession.setAttribute("authKey", authKey);
         ResponseEntity.status(201);
@@ -78,11 +80,9 @@ public class AuthController {
         HttpSession session = request.getSession(true);
 
         String authKey = (String) session.getAttribute("authKey");
-        System.out.println("authKey = " + authKey);
         JoinForm userForm = (JoinForm) session.getAttribute("userForm");
-        System.out.println("userForm = " + userForm);
-        User user = null;
 
+        User user = null;
 
         if (authKey != null) {
             if (authKey.equals(code)) {
@@ -93,11 +93,10 @@ public class AuthController {
             }
         }
         if (user != null) {
-
             return ResponseEntity.status(201).body(user.getEmail());
         }
         else {
-            throw new CustomException(ErrorCode.MISMATCH_VERIFY_CODE);
+            throw new CustomException(ErrorCode.FAIL_JOIN);
         }
 
     }

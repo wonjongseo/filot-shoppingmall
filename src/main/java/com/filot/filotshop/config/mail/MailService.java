@@ -15,6 +15,8 @@ public class MailService {
 
     private JavaMailSender mailSender;
     private static final String FROM_ADDRESS = "visionwill3322@gmail.com";
+    public static final String JOIN_MAIL = "[FILOT SHOP 회원가입 인증]";
+    public static final String FIND_PASSWORD_MAIL = "[FILOT SHOP 비밀번호 인증]";
 
     public static  String createKey(){
         StringBuffer key = new StringBuffer();

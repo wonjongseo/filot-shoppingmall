@@ -79,4 +79,16 @@ public class UserService  implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email).orElseThrow(()->new CustomException(ErrorCode.INVALID_AUTH_TOKEN));
     }
+
+    @Transactional
+    public String changePassword(String email, String newPassword) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        System.out.println("user.getPassword() = " + user.getPassword());
+
+        return user.getPassword();
+
+
+    }
 }

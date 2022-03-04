@@ -31,6 +31,7 @@ public enum ErrorCode {
     MISMATCH_FILE_MIMETYPE(BAD_REQUEST,"이미지 파일만 처리할 수 있습니다."),
 
     MISMATCH_VERIFY_CODE(UNAUTHORIZED,"이메일 인증 코드가 옳바르지 않습니다."),
+    FAIL_JOIN(UNAUTHORIZED,"회원가입에 실패하셨습니다."),
 
     MISMATCH_ID_PWD(BAD_REQUEST,"아이디와 패스워드가 일치하지 않습니다"),
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */

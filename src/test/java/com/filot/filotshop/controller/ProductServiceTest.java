@@ -11,6 +11,7 @@ import com.filot.filotshop.product.service.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 import javax.transaction.Transactional;
 
@@ -20,6 +21,8 @@ import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
+@TestPropertySource(locations = "classpath:application.yml"
+)
 public class ProductServiceTest {
 
     @Autowired

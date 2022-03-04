@@ -6,12 +6,15 @@ import com.filot.filotshop.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 
 @SpringBootTest
 @Transactional
+@TestPropertySource(locations = "classpath:application.yml"
+)
 class JwtTokenProviderTest {
     
     @Autowired
@@ -45,7 +48,6 @@ class JwtTokenProviderTest {
         user.setRoles(Collections.singletonList("ROLE_USER,ROLE_ADMIN"));
 
         System.out.println("user.getRoles().get(0) = " + user.getRoles().get(0));
-
     }
 
 }
