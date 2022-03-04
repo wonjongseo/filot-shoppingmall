@@ -8,7 +8,7 @@ import com.filot.filotshop.user.entity.JoinForm;
 import com.filot.filotshop.product.entity.Product;
 import com.filot.filotshop.review.entity.Review;
 import com.filot.filotshop.user.entity.User;
-import com.filot.filotshop.review.controller.ReviewRepository;
+import com.filot.filotshop.review.repository.ReviewRepository;
 import com.filot.filotshop.product.repository.ProductRepository;
 import com.filot.filotshop.product.service.ProductService;
 import com.filot.filotshop.user.service.UserService;

@@ -8,7 +8,7 @@ import com.filot.filotshop.review.entity.Review;
 import com.filot.filotshop.user.entity.User;
 import com.filot.filotshop.exception.CustomException;
 import com.filot.filotshop.exception.ErrorCode;
-import com.filot.filotshop.review.controller.ReviewRepository;
+import com.filot.filotshop.review.repository.ReviewRepository;
 import com.filot.filotshop.user.repository.UserRepository;
 import com.filot.filotshop.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;

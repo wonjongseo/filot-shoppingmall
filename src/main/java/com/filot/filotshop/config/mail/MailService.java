@@ -63,15 +63,17 @@ public String mailSend(String to, String subject) {
             htmlContent+= "<div style='font-size:130%'>";
             htmlContent+= "CODE : <strong>";
             htmlContent+= authKey+"</strong><div> <br/> ";
+            htmlContent+= "<img " +
+                    "     src=\"https://filotshopping.s3.ap-northeast-2.amazonaws.com/banner/banner.jpg\" width=\"150\" height=\"150\">";
             htmlContent += "<a href='http://localhost:8080/verify-code'>인증하러 가기</a><br/>";
             htmlContent+= "</div>";
             mailHandler.setText(htmlContent, true);
 
 //            mailHandler.setAttach("newTest.txt", "static/originTest.txt");
-//            mailHandler.setInline("filot", "static/img/teamIcon.jpg");
+//            mailHandler.setInline("filot", "https://filotshopping.s3.ap-northeast-2.amazonaws.com/banner/banner.jpg");
 
             mailHandler.send();
-        } catch (MessagingException e) {
+        } catch (MessagingException  e) {
             e.printStackTrace();
         }
         return authKey;

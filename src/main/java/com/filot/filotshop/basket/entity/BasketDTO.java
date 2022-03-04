@@ -12,6 +12,7 @@ public class BasketDTO {
     private  int totalPrice;
     private  String productOption;
     private  int selectedCount;
+    private String productUrl;
 
     public static BasketDTO createBasketDTO(Basket basket) {
         return BasketDTO
@@ -22,6 +23,8 @@ public class BasketDTO {
                 .productOption(basket.getProductColor() + "/" + basket.getProductSize())
                 .selectedCount(basket.getProductCount())
                 .totalPrice(basket.getTotalPrice())
+                .productUrl(basket.getProduct().getImageUrl())
                 .build();
     }
+
 }

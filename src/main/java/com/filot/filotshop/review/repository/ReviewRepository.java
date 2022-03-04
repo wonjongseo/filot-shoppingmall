@@ -1,4 +1,4 @@
-package com.filot.filotshop.review.controller;
+package com.filot.filotshop.review.repository;
 
 import com.filot.filotshop.review.entity.ReviewDTO;
 import com.filot.filotshop.review.entity.Review;

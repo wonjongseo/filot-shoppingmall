@@ -1,4 +1,4 @@
-package com.filot.filotshop.controller;
+package com.filot.filotshop.review.controller;
 
 import com.filot.filotshop.config.secuity.JwtTokenProvider;
 import com.filot.filotshop.review.entity.ReviewDTO;

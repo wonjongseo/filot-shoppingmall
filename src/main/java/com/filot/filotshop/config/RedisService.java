@@ -17,8 +17,6 @@ public class RedisService {
 
     @Bean
     public JedisPool jedisPool() throws URISyntaxException {
-
-        System.out.println("url = " + url);
         URI redisUri = new URI(url);
         JedisPool pool = new JedisPool(new JedisPoolConfig(),
                 redisUri.getHost(),

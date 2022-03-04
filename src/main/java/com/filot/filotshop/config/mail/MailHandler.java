@@ -1,5 +1,8 @@
 package com.filot.filotshop.config.mail;
 
+import com.filot.filotshop.commons.service.S3Service;
+import com.filot.filotshop.config.AmazonS3Config;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -39,13 +42,21 @@ public class MailHandler {
         messageHelper.setText(text, useHtml);
     }
 
-//    public void setAttach(String displayFileName, String pathToAttachment) throws IOException, MessagingException {
+    //    public void setAttach(String displayFileName, String pathToAttachment) throws IOException, MessagingException {
 //        File file = new ClassPathResource(pathToAttachment).getFile();
 //        FileSystemResource fsr = new FileSystemResource(file);
 //
 //        messageHelper.addAttachment(displayFileName, fsr);
 //    }
 //
+
+
+//    public void setInline(String pathToInline) throws MessagingException, IOException {
+//        File file = new ClassPathResource(pathToInline).getFile();
+//        FileSystemResource fsr = new FileSystemResource(file);
+//        messageHelper.addInline("FILOT",fsr);
+//        messageHelper
+//    }
 //    public void setInline(String contentId, String pathToInline) throws MessagingException, IOException {
 //        File file = new ClassPathResource(pathToInline).getFile();
 //        FileSystemResource fsr = new FileSystemResource(file);

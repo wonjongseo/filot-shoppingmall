@@ -54,13 +54,10 @@ public class UserController {
         }
         String authKey = mailService.mailSend(email, MailService.FIND_PASSWORD_MAIL);
 
-//        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-//        valueOperations.set( authKey,user.getEmail());
         Jedis jedis = redisService.jedisPool().getResource();
         jedis.set(authKey, user.getEmail());
 
         String keyAuthKEy = jedis.get(authKey);
-//        String keyAuthKEy = valueOperations.get( authKey);
 
         System.out.println("keyAuthKEy = " +keyAuthKEy);
         return ResponseEntity.status(200).body(authKey);
@@ -71,7 +68,6 @@ public class UserController {
     @PostMapping("/password/email/code")
     public ResponseEntity<String> verifyCodeForPassword(@RequestBody UpdateDTO updateDTO) throws URISyntaxException {
 
-//        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
         Jedis jedis = redisService.jedisPool().getResource();
         String valueEmail = jedis.get(updateDTO.getCode());
         System.out.println("in varify = valueEmail = " + valueEmail);
@@ -84,14 +80,9 @@ public class UserController {
     }
 
 
-
-
-
-
     //ok
     @GetMapping("/baskets")
     public List<BasketDTO> showUserBasket(HttpServletRequest request) {
-
         String userEmail = jwtTokenProvider.getUserEmail(request);
         return basketService.getAllBasket(userEmail);
     }
@@ -101,13 +92,19 @@ public class UserController {
     public void updateProductCnt(
             HttpServletRequest request,
             @PathVariable(name = "baskets-id") Long basketId, @RequestParam(name = "cnt", required = false) Integer cnt) {
-        System.out.println("cnt = " + cnt);
         String userEmail = jwtTokenProvider.getUserEmail(request);
         userService.changeProductCount(userEmail, basketId, cnt);
     }
 
+
+
     @GetMapping("/{user_email}")
-    public ResponseEntity<UserDTO> getUserDetail(@PathVariable(name = "user_email") String email) {
+    public ResponseEntity<UserDTO> getUserDetail(@PathVariable(name = "user_email") String email, HttpServletRequest request) {
+        String loggedInUserEmail = jwtTokenProvider.getUserEmail(request);
+        if(!loggedInUserEmail.equals(email)){
+            throw new CustomException(ErrorCode.INVALID_REQUEST);
+        }
+
         User user = userService.findUserByEmail(email);
         return ResponseEntity.ok(UserDTO.createUserDTO(user));
     }
