@@ -35,17 +35,13 @@ public class UserController {
 
     // ok
     private final MailService mailService;
-
     private final RedisService redisService;
 
 
-    private final RedisTemplate<String, String> redisTemplate;
     @PostMapping("/password/email")
     public ResponseEntity<String> findPassword(@RequestBody Map<String,String> emailOjb) throws URISyntaxException {
 
         String email = emailOjb.get("email");
-
-        System.out.println("email = " + email);
 
         User user = userService.findUserByEmail(email);
         System.out.println("user.getEmail = " + user.getEmail());
@@ -59,7 +55,6 @@ public class UserController {
 
         String keyAuthKEy = jedis.get(authKey);
 
-        System.out.println("keyAuthKEy = " +keyAuthKEy);
         return ResponseEntity.status(200).body(authKey);
     }
 
@@ -70,9 +65,9 @@ public class UserController {
 
         Jedis jedis = redisService.jedisPool().getResource();
         String valueEmail = jedis.get(updateDTO.getCode());
-        System.out.println("in varify = valueEmail = " + valueEmail);
+
         if (updateDTO.getEmail().equals(valueEmail)) {
-            String newPwd = userService.changePassword(updateDTO.getEmail(), updateDTO.getNewPassword());
+             userService.changePassword(updateDTO.getEmail(), updateDTO.getNewPassword());
         } else{
             throw new CustomException(ErrorCode.MISMATCH_VERIFY_CODE);
         }

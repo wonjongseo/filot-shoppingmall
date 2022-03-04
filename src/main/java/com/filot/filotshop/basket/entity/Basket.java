@@ -19,7 +19,6 @@ import javax.persistence.*;
 @ToString(exclude = {"user , product"})
 @NoArgsConstructor
 @AllArgsConstructor
-//@JsonIdentityInfo(generator = IntSequenceGenerator.class, property = "id")
 public class Basket extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

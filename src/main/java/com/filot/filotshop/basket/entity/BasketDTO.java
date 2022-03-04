@@ -7,6 +7,7 @@ import lombok.Data;
 @Builder
 public class BasketDTO {
     private Long id;
+    private Long productId;
     private  String productName;
     private  int productPrice;
     private  int totalPrice;
@@ -18,6 +19,7 @@ public class BasketDTO {
         return BasketDTO
                 .builder()
                 .id(basket.getId())
+                .productId(basket.getProduct().getId())
                 .productName(basket.getProduct().getName())
                 .productPrice(basket.getProduct().getPrice())
                 .productOption(basket.getProductColor() + "/" + basket.getProductSize())
