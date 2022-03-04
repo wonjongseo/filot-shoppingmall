@@ -3,8 +3,9 @@ server:
 
 spring:
   redis:
-    host: ${REDIS_HOST}
+    host: ${REDISCLOUD_URL}
     port: ${REDIS_PORT}
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: ${DATABASE_USERNAME}
