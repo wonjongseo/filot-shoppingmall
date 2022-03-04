@@ -38,7 +38,7 @@ public class AuthController {
         User user = userService.findUserByEmail(userForm.getEmail());
         return user;
     }
-        private final PersonRedisRepository repo;
+
 
     @GetMapping("mail-test-join")
     public String joinForm(){
