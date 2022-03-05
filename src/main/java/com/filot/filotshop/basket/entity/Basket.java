@@ -34,7 +34,7 @@ public class Basket extends BaseEntity {
     private String productSize;
 
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BASKET_PRODUCT_ID")
     Product product;
 
