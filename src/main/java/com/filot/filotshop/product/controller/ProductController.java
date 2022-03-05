@@ -19,7 +19,7 @@ public class ProductController {
     private final CategoryService categoryService;
 
 
-    @GetMapping(value = "/product-list/{category_name}")
+    @GetMapping(value = "/products/{category_name}")
     public List<ProductDTO> showProductByCategoryName(
             @PathVariable(value = "category_name") String name,
             @RequestParam(name = "page", required = false) Integer page,
@@ -38,11 +38,15 @@ public class ProductController {
             return categoryService.findProductByName(name, page, sort);
         }
     }
-    @GetMapping(value = "/products/{product_id}")
+    @GetMapping(value = "/product/{product_id}")
     public DetailProductDTO showProductById(@PathVariable(name = "product_id") Long id) {
-        System.out.println("id = " + id);
         Product product = productService.findProductById(id);
         return DetailProductDTO.createDetailProductDTO(product);
     }
 
 }
+
+//43
+//33
+
+// -> 76

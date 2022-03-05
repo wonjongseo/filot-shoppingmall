@@ -33,28 +33,38 @@ public enum ErrorCode {
     MISMATCH_VERIFY_CODE(UNAUTHORIZED,"이메일 인증 코드가 옳바르지 않습니다."),
     FAIL_JOIN(UNAUTHORIZED,"회원가입에 실패하셨습니다."),
 
-    MISMATCH_ID_PWD(BAD_REQUEST,"아이디와 패스워드가 일치하지 않습니다"),
-    /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
-    INVALID_AUTH_TOKEN(UNAUTHORIZED, "권한 정보가 없는 토큰입니다"),
-    UNAUTHORIZED_MEMBER(UNAUTHORIZED, "현재 내 계정 정보가 존재하지 않습니다"),
 
-    NOT_ENOUGH_MONEY(UNAUTHORIZED, "현재 내 계정 정보가 존재하지 않습니다"),
+    /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
+
+
+
 
     NOT_ENOUGH_AMOUNT(BAD_REQUEST, "매장 내 수량이 부족합니다"),
 
     // 401
-    USER_NOT_FOUND(UNAUTHORIZED, "해당 유저 정보를 찾을 수 없습니다"),
+
 
     /* 404 NOT_FOUND : Resource 를 찾을 수 없음 */
-    PRODUCT_NOT_FUND(NOT_FOUND,"해당 상품을 찾을 수 없습니다"),
-    MISMATCH_ENUM(NOT_FOUND, "필드 잘못된 접근입니다."),
+    PRODUCT_NOT_FOUND(NOT_FOUND,"해당 상품을 찾을 수 없습니다"),
     REFRESH_TOKEN_NOT_FOUND(NOT_FOUND, "로그아웃 된 사용자입니다"),
 
     /* 409 CONFLICT : Resource 의 현재 상태와 충돌. 보통 중복된 데이터 존재 */
     DUPLICATE_RESOURCE(CONFLICT, "데이터가 이미 존재합니다"),
-    DUPLICATE_USER(CONFLICT, "이미 존재하는 회원입니다."),
 
+    USER_NOT_FOUND(UNAUTHORIZED, "해당 유저 정보를 찾을 수 없습니다"),
+    DUPLICATE_USER(CONFLICT, "이미 존재하는 회원입니다."),
+    NOT_ENOUGH_MONEY(UNAUTHORIZED, "현재 내 계정 정보가 존재하지 않습니다"),
+    INVALID_AUTH_TOKEN(UNAUTHORIZED, "권한 정보가 없는 토큰입니다"),
+    UNAUTHORIZED_MEMBER(UNAUTHORIZED, "현재 내 계정 정보가 존재하지 않습니다"),
+    MISMATCH_ID_PWD(BAD_REQUEST,"아이디와 패스워드가 일치하지 않습니다"),
+
+
+    // basket
+
+    INVALID_NUMBER(BAD_REQUEST , "0 이상의 수를 입력해주세요")
     ;
+
+
 
     private final HttpStatus httpStatus;
     private final String detail;

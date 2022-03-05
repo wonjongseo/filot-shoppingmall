@@ -33,7 +33,6 @@ public class UserService  implements UserDetailsService {
 
     //ok
     public User join(JoinForm form){
-
         User user = new User();
         user.setEmail(form.getEmail());
         user.setName(form.getName());
@@ -47,28 +46,17 @@ public class UserService  implements UserDetailsService {
     }
 
     public boolean duplicateUser(String email) {
-        boolean user = userRepository.findByEmail(email).isPresent();
-        if (user == false) {
-            return true;
-
-        }
-        return false;
-
+        boolean isUser = userRepository.findByEmail(email).isPresent();
+        return isUser;
     }
 
     @Transactional(readOnly = true)
     public  User findUserByEmail(String email){
-        return userRepository.findByEmail(email).orElseThrow(()-> new CustomException(ErrorCode.USER_NOT_FOUND));
+        return userRepository.findByEmail(email)
+                .orElseThrow(()-> new CustomException(ErrorCode.USER_NOT_FOUND));
     }
 
-    public int changeProductCount(String userEmail, Long basketId, Integer cnt) {
-        if(cnt < 0) throw new CustomException(ErrorCode.INVALID_REQUEST);
-        Basket basket = basketRepository.getById(basketId);
-        basket.setProductCount(cnt);
-
-        return basket.getProductCount();
-    }
-
+    
     public Basket findBasketByBasketId( Long basketId){
 
         return basketRepository.getById(basketId);

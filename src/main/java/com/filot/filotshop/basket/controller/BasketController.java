@@ -17,14 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class BasketController {
 
-    private final UserService userService;
     private final BasketService basketService;
     private final JwtTokenProvider jwtTokenProvider;
 
 
-//ok
     @PostMapping("/products/{id}/baskets")
-    @Transactional
+//    @Transactional
     public ResponseEntity addProductInToBasket(HttpServletRequest req, @PathVariable(name = "id") Long productId , @RequestBody BasketForm basketForm) {
         String userEmail = jwtTokenProvider.getUserEmail(req);
 
@@ -36,6 +34,21 @@ public class BasketController {
 
         return ResponseEntity.ok(basketForm);
     }
+
+
+    @DeleteMapping("/users/baskets/{basket-id}")
+    public void deleteBasket(@PathVariable(name = "basket-id") Long basketId){
+        basketService.deleteBasket(basketId);
+    }
+
+    // ok
+    @PutMapping("/users/baskets/{baskets-id}")
+    public void updateProductCnt(
+            @PathVariable(name = "baskets-id") Long basketId, @RequestParam(name = "cnt", required = false) int cnt) {
+
+        basketService.changeProductCntInBasket(basketId, cnt);
+    }
+
 
 
 }

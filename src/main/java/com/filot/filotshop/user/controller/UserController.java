@@ -33,47 +33,6 @@ public class UserController {
     private final JwtTokenProvider jwtTokenProvider;
     private final BasketService basketService;
 
-    // ok
-    private final MailService mailService;
-    private final RedisService redisService;
-
-
-    @PostMapping("/password/email")
-    public ResponseEntity<String> findPassword(@RequestBody Map<String,String> emailOjb) throws URISyntaxException {
-
-        String email = emailOjb.get("email");
-
-        User user = userService.findUserByEmail(email);
-        System.out.println("user.getEmail = " + user.getEmail());
-        if (user== null) {
-            throw new CustomException(ErrorCode.USER_NOT_FOUND);
-        }
-        String authKey = mailService.mailSend(email, MailService.FIND_PASSWORD_MAIL);
-
-        Jedis jedis = redisService.jedisPool().getResource();
-        jedis.set(authKey, user.getEmail());
-
-        String keyAuthKEy = jedis.get(authKey);
-
-        return ResponseEntity.status(200).body(authKey);
-    }
-
-
-
-    @PostMapping("/password/email/code")
-    public ResponseEntity<String> verifyCodeForPassword(@RequestBody UpdateDTO updateDTO) throws URISyntaxException {
-
-        Jedis jedis = redisService.jedisPool().getResource();
-        String valueEmail = jedis.get(updateDTO.getCode());
-
-        if (updateDTO.getEmail().equals(valueEmail)) {
-             userService.changePassword(updateDTO.getEmail(), updateDTO.getNewPassword());
-        } else{
-            throw new CustomException(ErrorCode.MISMATCH_VERIFY_CODE);
-        }
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(updateDTO.getNewPassword());
-    }
-
 
     //ok
     @GetMapping("/baskets")
@@ -82,20 +41,11 @@ public class UserController {
         return basketService.getAllBasket(userEmail);
     }
 
-    // ok
-    @PutMapping("/baskets/{baskets-id}")
-    public void updateProductCnt(
-            HttpServletRequest request,
-            @PathVariable(name = "baskets-id") Long basketId, @RequestParam(name = "cnt", required = false) Integer cnt) {
-        String userEmail = jwtTokenProvider.getUserEmail(request);
-        userService.changeProductCount(userEmail, basketId, cnt);
-    }
-
-
 
     @GetMapping("/{user_email}")
     public ResponseEntity<UserDTO> getUserDetail(@PathVariable(name = "user_email") String email, HttpServletRequest request) {
         String loggedInUserEmail = jwtTokenProvider.getUserEmail(request);
+
         if(!loggedInUserEmail.equals(email)){
             throw new CustomException(ErrorCode.INVALID_REQUEST);
         }

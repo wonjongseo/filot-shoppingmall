@@ -19,14 +19,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class BasketService {
 
     private final BasketRepository basketRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
 
-    @Transactional(readOnly = true)
     public List<BasketDTO> getAllBasket(String userEmail){
         User user = userRepository.findByEmail(userEmail).orElseThrow(
                 () -> new CustomException(ErrorCode.USER_NOT_FOUND));
@@ -42,6 +41,7 @@ public class BasketService {
         return baskets;
     }
 
+    @Transactional
     public Basket addBasket(String userEmail, Long productId, BasketForm basketForm){
         User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         Product product = productRepository.getById(productId);
@@ -59,4 +59,38 @@ public class BasketService {
     }
 
 
+    @Transactional
+    public void deleteBasket(Long basketId) {
+        Basket basket = basketRepository.findById(basketId).get();
+
+        int productCountInBasket = basket.getProductCount();
+
+        Product product = basket.getProduct();
+        product.changeAmount(productCountInBasket);
+
+        basketRepository.delete(basket);
+    }
+
+    @Transactional
+    public int changeProductCntInBasket( Long basketId , int cnt){
+
+
+        Basket basket = basketRepository.findById(basketId)
+                .orElseThrow(()->new CustomException(ErrorCode.PRODUCT_NOT_FOUND));
+
+
+
+        if(cnt < 0) throw new CustomException(ErrorCode.INVALID_NUMBER);
+
+
+
+        basket.setProductCount(cnt);
+
+        return basket.getProductCount();
+    }
 }
+
+//60
+
+
+// count 12

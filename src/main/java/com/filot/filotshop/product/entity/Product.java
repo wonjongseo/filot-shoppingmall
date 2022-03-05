@@ -27,6 +27,7 @@ public class Product  extends BaseEntity {
 
         return product;
     }
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PRODUCT_ID")
     Long id;
@@ -70,7 +71,10 @@ public class Product  extends BaseEntity {
     @JoinColumn(name = "PRODUCT_DISCOUNT_ID")
     private Discount discount;
 
-
+    public void changeAmount(int changedAmount){
+        int nowAmount = this.getAmount();
+        this.amount = nowAmount + changedAmount;
+    }
 
 
     public void setCategory(Category category) {

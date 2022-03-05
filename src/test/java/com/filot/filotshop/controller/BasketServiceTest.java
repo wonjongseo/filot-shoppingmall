@@ -90,7 +90,7 @@ public class BasketServiceTest {
 
         assertThat(productCnt).isEqualTo(productCount + product.getAmount());
 
-        int updatedProductCount = userService.changeProductCount(user.getEmail(), basket.getId(), 20);
+        int updatedProductCount = basketService.changeProductCntInBasket(basket.getId(), 20);
 
 
         assertThat(productCnt).isEqualTo(updatedProductCount + product.getAmount());

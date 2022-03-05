@@ -19,7 +19,7 @@ public class CategoryRepositoryCustomImpl implements CategoryRepositoryCustom{
     @Override
     public List<ProductDTO> findProductByCategoryName(String name, Integer page, String sort) {
         System.out.println("it it called");
-        String jpql = "select new com.filot.filotshop.product.entity.ProductDTO (p.id,p.name,p.price,p.size, p.imageUrl) from Category c join c.products p where c.name = :name ";
+        String jpql = "select new com.filot.filotshop.product.entity.ProductDTO (p.id,p.name,p.price,p.size, p.imageUrl,p.amount) from Category c join c.products p where c.name = :name ";
 
         if (sort.equals("name")) {
             jpql += "order by p.name";
@@ -31,9 +31,6 @@ public class CategoryRepositoryCustomImpl implements CategoryRepositoryCustom{
         } else if (sort.equals("newest")) {
             jpql += "order by p.createdAt";
         }
-//        else if (sort.equals("평점높은순")) {
-//
-//        }
 
        return em.createQuery(jpql, ProductDTO.class)
                 .setParameter("name",name)

@@ -137,7 +137,7 @@ class serviceTest {
         BasketDTO basketDTO = BasketDTO.createBasketDTO(basket);
         System.out.println("basketDTO = " + basketDTO);
 
-        int adminA2 = userService.changeProductCount("adminA2", 14L, 1);
+        int adminA2 = basketService.changeProductCntInBasket( 14L, 1);
         System.out.println("adminA2 = " + adminA2);
     }
 
