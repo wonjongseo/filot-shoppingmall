@@ -57,6 +57,8 @@ public class AdminProductController {
         int changedAmount = productService.changeProductAmount(product, amount);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(changedAmount);
     }
+
+
     private boolean checkMimeType(MultipartFile file) {
         File checkFile = new File(file.getOriginalFilename());
 
