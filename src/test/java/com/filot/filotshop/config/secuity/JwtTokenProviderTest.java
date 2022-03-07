@@ -19,7 +19,6 @@ import java.util.Collections;
 
 @SpringBootTest
 @Transactional
-@TestPropertySource(locations={"classpath:application.yml","classpath:aws.yml"})
 class JwtTokenProviderTest {
     
     @Autowired
