@@ -23,7 +23,8 @@ public enum ErrorCode {
     CANNOT_FIND_PRODUCT_ID(BAD_REQUEST, "일치하는 상품이 없습니다."),
 
     CATEGORY_NOT_FOUND(BAD_REQUEST, "카테고리가 존재하지 않습니다"),
-    INVAILD_REQUEST_FOR_DATABASE(BAD_REQUEST,"제약조건에 위반되었습니다"),
+    INVALID_REQUEST_FOR_DATABASE(BAD_REQUEST,"제약조건에 위반되었습니다"),
+
 
     MISMATCH_PASSWORD(BAD_REQUEST, "입력한 비밀번호가 일치하지 않습니다."),
     MISMATCH_REGEXP_PWD(BAD_REQUEST, "비밀번호는 영어 숫자 특수문자, 8자 이상이여합니다"),
@@ -34,11 +35,10 @@ public enum ErrorCode {
     FAIL_JOIN(UNAUTHORIZED,"회원가입에 실패하셨습니다."),
 
 
-    /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
 
+    // product
 
-
-
+    INVALID_AMOUNT(BAD_REQUEST, "상품 수량은 0개 이상이여야합니다."),
     NOT_ENOUGH_AMOUNT(BAD_REQUEST, "매장 내 수량이 부족합니다"),
 
     // 401

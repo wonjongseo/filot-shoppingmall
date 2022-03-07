@@ -7,10 +7,12 @@ import com.filot.filotshop.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.parameters.P;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -19,47 +21,26 @@ public class JPQLTest {
     @Autowired
     EntityManager em;
 
-
     @Test
-    public void 카테고리이름으로_제품_찾는다(){
-        String jpql = "select new com.filot.filotshop.product.entity.ProductDTO (p.id,p.name,p.price,p.size, p.imageUrl) from Category c join c.products p where c.name = :name";
+    public void test1(){
+        List<Object[]> resultList = em.createQuery("select p.id,p.name,p.price,p.size,p.imageUrl,p.amount From Product p ").getResultList();
 
-        List<ProductDTO> resultList = em.createQuery(jpql, ProductDTO.class).setParameter("name", "BEST").getResultList();
-        for (ProductDTO product : resultList) {
-            System.out.println("product = " + product);
+        List<ProductDTO> productDTOS = new ArrayList<>();
+
+        for (Object[] objects : resultList) {
+            ProductDTO productDTO = new ProductDTO();
+            productDTO.setId((Long) objects[0]);
+            productDTO.setName((String) objects[1]);
+            productDTO.setPrice((Integer) objects[2]);
+            productDTO.setSize((String) objects[3]);
+            productDTO.setImageUrl((String)objects[4]);
+            productDTO.setAmount((Integer) objects[5]);
+            productDTOS.add(productDTO);
         }
-    }
 
-    @Test
-    public void 정렬해서_상품_보여준다() {
-        String jpql = "select new com.filot.filotshop.product.entity.ProductDTO (p.id,p.name,p.price,p.size, p.imageUrl) from Category c join c.products p where c.name = :name ";
-
-        jpql += "order by p.price desc";
-//        jpql += "order by p.createdAt";
-
-
-        List<ProductDTO> resultList = em.createQuery(jpql, ProductDTO.class)
-                .setParameter("name", "COAT")
-                .setFirstResult(0).
-                setMaxResults(3).
-                getResultList();
-        for (ProductDTO productDTO : resultList) {
+        for (ProductDTO productDTO : productDTOS) {
             System.out.println("productDTO = " + productDTO);
         }
-        System.out.println();
-
     }
 
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    EmailCheckRepository emailCheckRepository;
-    @Test
-    @Rollback(value = false)
-    public void addEmailCode(){
-        EmailCheckDTO emailCheck = new EmailCheckDTO();
-        emailCheck.setEmail("visionwill");
-        emailCheck.setCode("1234");
-        emailCheckRepository.save(emailCheck);
-    }
 }

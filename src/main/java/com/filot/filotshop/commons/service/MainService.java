@@ -20,7 +20,7 @@ public class MainService {
 
     public ProductsCategoriesDTO getProductsAndCategories(){
         List<ProductDTO> mainJoinProducts = productRepository.findAllProductsJsonType();
-        List<CategoryDTO> mainCategories = categoryRepository.findAllMainCategoriesToDTO();
+        List<CategoryDTO> mainCategories = categoryRepository.findAllParentCategory();
         return new ProductsCategoriesDTO(mainJoinProducts, mainCategories);
     }
 

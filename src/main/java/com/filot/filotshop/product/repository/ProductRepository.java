@@ -11,8 +11,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> , Produc
 
     Product findByName(String name);
 
-    @Query("select new com.filot.filotshop.product.entity.ProductDTO (p.id,p.name,p.price,p.size, i.url, p.amount) from Product p inner  join p.images i")
-    List<ProductDTO> findAllToDTO();
+
 
 
 

@@ -14,6 +14,17 @@ import javax.persistence.*;
 @Setter
 public class Review extends BaseEntity {
 
+
+    public static Review createReview(ReviewForm reviewForm,User user , Product product) {
+        Review review = new Review();
+        review.setTitle(reviewForm.getTitle());
+        review.setContent(reviewForm.getContent());
+        review.setRate(reviewForm.getRate());
+        review.setUser(user);
+        review.setProduct(product);
+        return review;
+
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "REVIEW_ID")

@@ -11,6 +11,7 @@ import com.filot.filotshop.exception.ErrorCode;
 import com.filot.filotshop.user.repository.UserRepository;
 import com.filot.filotshop.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,9 @@ public class ReviewController {
                                     @RequestBody ReviewForm reviewForm
     ) {
         String userEmail = jwtTokenProvider.getUserEmail(rep);
-        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         List<Basket> baskets = user.getBaskets();
 
@@ -60,10 +63,25 @@ public class ReviewController {
         return new ResponseEntity<>(removedId, HttpStatus.OK);
     }
 
+
+    /*
+    @OrderBy("name ASC")
+List <Foo> fooList;
+
+Sorting the entity containing the collection:
+String jql = "Select b from Bar as b order by b.id";
+Query barQuery = entityManager.createQuery(jql);
+List<Bar> barList = barQuery.getResultList();
+     */
     @GetMapping("/products/{product_id}/reviews")
-    public List<ReviewDTO> showReviewByProductId(@PathVariable(name="product_id") Long productId){
-        return reviewService.getReviewDTOsByProductId(productId);
+    public List<ReviewDTO> showReviewByProductId(
+            @PathVariable(name = "product_id") Long productId,
+            @RequestParam(required = false) int page) {
+
+        return reviewService.getReviewDTOsByProductId(productId, page);
     }
+
+
      // 또 이거 api 바꿔야해 너무 구려
     @PutMapping("/products/{product_id}/reviews/{review_id}")
     public ResponseEntity updateReview(

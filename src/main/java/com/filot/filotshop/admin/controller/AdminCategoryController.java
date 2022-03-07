@@ -1,6 +1,7 @@
 package com.filot.filotshop.admin.controller;
 
 
+import com.filot.filotshop.category.entity.CategoryDTO;
 import com.filot.filotshop.category.entity.CategoryForm;
 import com.filot.filotshop.category.entity.Category;
 import com.filot.filotshop.category.service.CategoryService;
@@ -17,17 +18,15 @@ import java.util.List;
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminCategoryController {
 
-
     private final CategoryService categoryService;
 
     @PostMapping("/")
-    public ResponseEntity<Category> postCategory(@RequestBody CategoryForm form) {
+    public ResponseEntity<CategoryDTO> postCategory(@RequestBody CategoryForm form) {
         Category category = categoryService.addCategory(form);
-        return ResponseEntity.ok(category);
+        CategoryDTO categoryDTO = CategoryDTO.createCategoryDTO(category);
+
+        return ResponseEntity.status(200).body(categoryDTO);
     }
 
-    @GetMapping("/parents")
-    public List<Category> getParents() {
-        return categoryService.findAllCategories();
-    }
+
 }

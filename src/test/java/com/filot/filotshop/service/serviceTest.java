@@ -118,13 +118,7 @@ class serviceTest {
     JwtTokenProvider jwtTokenProvider;
 
 
-    @Test
-    public void pagingTest(){
-        List<ProductDTO> best = productRepository.findProductsSortedByName("BEST", 1, 10);
-        for (ProductDTO productDTO : best) {
-            System.out.println("productDTO = " + productDTO);
-        }
-    }
+
 
 
     @Autowired

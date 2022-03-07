@@ -34,12 +34,6 @@ public class ProductService {
 
     @Transactional
     public Product addProduct(ProductForm productForm) {
-//        Product product = Product.createProduct(productForm);
-//        Category category = categoryRepository.findByName(productForm.getCategoryName())
-//                .orElseThrow(() -> new CustomException(ErrorCode.CATEGORY_NOT_FOUND));
-//        product.setCategory(category);
-//
-//        return   productRepository.save(product);
     return  null;
 
     }
@@ -60,10 +54,14 @@ public class ProductService {
     }
 
     public List<ProductDTO> findAllProducts(){
-        return productRepository.findAllToDTO();
+        return productRepository.findAllProductDTO();
     }
 
-
+    @Transactional
+    public int changeProductAmount(Product product, int amount) {
+        product.changeAmount(amount);
+        return product.getAmount();
+    }
     public Product findProductById(Long id){
         return productRepository.findById(id).orElseThrow(()-> new CustomException(ErrorCode.INVALID_REQUEST_SORT));
     }

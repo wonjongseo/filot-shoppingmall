@@ -43,7 +43,9 @@ public class BasketService {
 
     @Transactional
     public Basket addBasket(String userEmail, Long productId, BasketForm basketForm){
-        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
         Product product = productRepository.getById(productId);
 
         Basket basket = Basket.builder()
@@ -52,6 +54,7 @@ public class BasketService {
                 .productColor(basketForm.getColor())
                 .productOrder(null)
                 .build();
+
         basket.setProductCount(basketForm.getCount());
         basket.setUser(user);
 
@@ -78,11 +81,7 @@ public class BasketService {
         Basket basket = basketRepository.findById(basketId)
                 .orElseThrow(()->new CustomException(ErrorCode.PRODUCT_NOT_FOUND));
 
-
-
         if(cnt < 0) throw new CustomException(ErrorCode.INVALID_NUMBER);
-
-
 
         basket.setProductCount(cnt);
 

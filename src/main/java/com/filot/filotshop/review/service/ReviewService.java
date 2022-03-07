@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 @Service
@@ -23,11 +24,8 @@ import java.util.List;
 public class ReviewService {
 
     private final ReviewRepository repository;
-
     private final UserRepository userRepository;
-
-    private final ProductRepository productRepository;
-
+    private final EntityManager em;
 
     @Transactional
     public Long removeReview(Long id) {
@@ -36,23 +34,18 @@ public class ReviewService {
         return review.getId();
     }
 
-
     @Transactional
     public Long createReviewWithUserEmailAndProductId(ReviewForm reviewForm, String userEmail, Long productId) {
-        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-        Product product = productRepository.getById(productId);
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        Review review = new Review();
-        review.setTitle(reviewForm.getTitle());
-        review.setContent(reviewForm.getContent());
-        review.setRate(reviewForm.getRate());
-        review.setUser(user);
-        review.setProduct(product);
+        Product product = em.getReference(Product.class, productId);
+        Review review = Review.createReview(reviewForm, user, product);
 
         return repository.save(review).getId();
     }
 
-    public List<ReviewDTO> getReviewDTOsByProductId (Long productId){
-        return repository.getReviewDTOsByProductId(productId);
+    public List<ReviewDTO> getReviewDTOsByProductId (Long productId,int page){
+        return repository.getAllReviewDTO(productId,page);
     }
 }

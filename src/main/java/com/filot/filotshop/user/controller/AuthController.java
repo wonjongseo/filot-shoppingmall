@@ -49,7 +49,6 @@ public class AuthController {
     public ResponseEntity<UserDTO> verifyEmail(String code, HttpServletRequest request) {
 
         HttpSession session = request.getSession(true);
-
         String authKey = (String) session.getAttribute("authKey");
         JoinForm userForm = (JoinForm) session.getAttribute("userForm");
 

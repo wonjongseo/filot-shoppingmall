@@ -19,7 +19,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long>, Categ
      @Query("select new com.filot.filotshop.product.entity.ProductDTO (p.id,p.name,p.price,p.size, p.imageUrl,p.amount ) from Category c join c.products p where c.name = :name")
      List<ProductDTO> findProductByCategoryName(@Param("name") String name);
 
-     @Query("SELECT new com.filot.filotshop.category.entity.CategoryDTO(c.id,c.name) FROM Category c where c.parent is null")
-     List<CategoryDTO> findAllMainCategoriesToDTO();
+//     @Query("SELECT new com.filot.filotshop.category.entity.CategoryDTO(c.id,c.name) FROM Category c where c.parent is null")
+//     List<CategoryDTO> findAllMainCategoriesToDTO();
 
 }

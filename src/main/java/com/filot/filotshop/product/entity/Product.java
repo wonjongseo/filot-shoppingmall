@@ -3,10 +3,13 @@ package com.filot.filotshop.product.entity;
 import com.filot.filotshop.category.entity.Category;
 import com.filot.filotshop.commons.entity.BaseEntity;
 import com.filot.filotshop.commons.entity.Discount;
+import com.filot.filotshop.exception.CustomException;
+import com.filot.filotshop.exception.ErrorCode;
 import com.filot.filotshop.review.entity.Review;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +61,7 @@ public class Product  extends BaseEntity {
 
     private String color;
 
-
+    private LocalDateTime createdAt;
     @ManyToOne
     @JoinColumn(name = "CATEGORY_PRODUCT_ID")
     private Category category;
@@ -71,9 +74,11 @@ public class Product  extends BaseEntity {
     @JoinColumn(name = "PRODUCT_DISCOUNT_ID")
     private Discount discount;
 
-    public void changeAmount(int changedAmount){
-        int nowAmount = this.getAmount();
-        this.amount = nowAmount + changedAmount;
+    public void changeAmount(int amount){
+        int changedAmount = this.getAmount() + amount;
+        if(changedAmount < 0 )
+            throw new CustomException(ErrorCode.INVALID_AMOUNT);
+        this.amount = changedAmount;
     }
 
 

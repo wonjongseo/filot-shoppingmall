@@ -18,19 +18,18 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-
-    @GetMapping(value = "/category-list/{category_id}")
+    @GetMapping(value = "/categories/{category_id}")
     public List<CategoryDTO> showCategoryList(@PathVariable(value = "category_id") String name) {
 
-        if (name.equals("main")) return categoryService.findAllMainCategories();
+        if (name.equals("parents")) return categoryService.findAllParentCategory();
 
         Category category = categoryService.findCategoryByName(name).
                 orElseThrow(() -> new CustomException(ErrorCode.INVALID_REQUEST));
 
         List<CategoryDTO> categoryDTOS = new ArrayList<>();
-
+//
         for (Category child : category.getChild()) {
-            CategoryDTO categoryDTO = new CategoryDTO(child.getId(), child.getName());
+            CategoryDTO categoryDTO = CategoryDTO.createCategoryDTO(child);
             categoryDTOS.add(categoryDTO);
         }
         return categoryDTOS;

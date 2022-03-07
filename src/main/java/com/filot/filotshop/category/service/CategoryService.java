@@ -27,31 +27,24 @@ public class CategoryService {
         if(form.getParentName() == null){
             category = new Category(form.getName(), null,null);
         }else{
-            Category parent = categoryRepository.findByName(form.getParentName()).orElseThrow(()-> new CustomException(ErrorCode.INVALID_REQUEST));
+            Category parent = categoryRepository.findByName(form.getParentName())
+                    .orElseThrow(()-> new CustomException(ErrorCode.INVALID_REQUEST));
             category = new Category(form.getName(), null, parent);
         }
         categoryRepository.save(category);
         return category;
     }
 
-    public List<Category> findAllCategories(){
-        return categoryRepository.findChildrenByParentId(null);
-    }
-
     public Optional<Category> findCategoryByName(String name) {
         return categoryRepository.findByName(name);
     }
 
-    public List<CategoryDTO> findAllMainCategories(){
-        return categoryRepository.findAllMainCategoriesToDTO();
+    public List<CategoryDTO> findAllParentCategory(){
+        return categoryRepository.findAllParentCategory();
     }
 
     public List<ProductDTO> findProductByName(String name){
         return categoryRepository.findProductByCategoryName(name);
-    }
-
-    public List<ProductDTO> findProductByName(String name, Integer page, String sort){
-        return categoryRepository.findProductByCategoryName(name ,page,sort);
     }
 
 

@@ -1,20 +1,25 @@
 package com.filot.filotshop.config.secuity;
 
+import com.filot.filotshop.FilotShopApplication;
+import com.filot.filotshop.config.AmazonS3Config;
 import com.filot.filotshop.user.entity.Address;
 import com.filot.filotshop.user.entity.User;
 import com.filot.filotshop.user.repository.UserRepository;
+import javafx.application.Application;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 
+
 @SpringBootTest
 @Transactional
-@TestPropertySource(locations = "classpath:application.yml"
-)
+@TestPropertySource(locations={"classpath:application.yml","classpath:aws.yml"})
 class JwtTokenProviderTest {
     
     @Autowired

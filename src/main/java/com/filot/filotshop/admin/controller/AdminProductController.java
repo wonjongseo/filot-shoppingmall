@@ -10,12 +10,10 @@ import com.filot.filotshop.exception.ErrorCode;
 import com.filot.filotshop.product.repository.ImageRepository;
 import com.filot.filotshop.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -49,14 +47,20 @@ public class AdminProductController {
         }
 
         return ResponseEntity.ok("success");
-
     }
 
+
+    @PutMapping("/{product_id}")
+    public ResponseEntity<Integer> changeProductAmount(
+            @PathVariable(name = "product_id") Product product,
+            @RequestParam(name = "amount") int amount) {
+        int changedAmount = productService.changeProductAmount(product, amount);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(changedAmount);
+    }
     private boolean checkMimeType(MultipartFile file) {
         File checkFile = new File(file.getOriginalFilename());
 
         MimetypesFileTypeMap mimetypesFileTypeMap = new MimetypesFileTypeMap();
-
         String mimeType = mimetypesFileTypeMap.getContentType(checkFile);
 
         if (!mimeType.contains("image")) {
@@ -69,19 +73,11 @@ public class AdminProductController {
 
     @PostMapping("/")
     public ResponseEntity<ProductDTO> postProduct(ProductForm productForm, MultipartFile file) {
-        System.out.println("productForm = " + productForm);
-        System.out.println
-                ("file = " + file.getOriginalFilename());
         checkMimeType(file);
         String url = s3Uploader.upload(file, productForm.getCategoryName());
-        System.out.println("url = " + url);
         Product product = productService.addProduct(productForm,url);
 
-
         return ResponseEntity.ok(ProductDTO.createProductDTO(product));
-
-
-
     }
 
 }

@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
 
-
     private final S3Service s3Service;
 
     @PostMapping("/banners")
@@ -29,7 +28,6 @@ public class AdminController {
 
     @GetMapping("/banners")
     public ResponseEntity<String> getBannerUrl(@RequestParam(required = false) String bannerName) {
-        System.out.println("bannerFile = " + bannerName);
         if (bannerName == null) {
             return ResponseEntity.ok(s3Service.getUrl("banner/banner.jpg"));
         }

@@ -29,6 +29,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = DataIntegrityViolationException.class)
     protected CustomException handleDatabaseException(DataIntegrityViolationException e){
         log.error("handleDatabaseException throw DataIntegrityViolationException : {}", e.getMessage());
-        return new CustomException(ErrorCode.INVAILD_REQUEST_FOR_DATABASE);
+        return new CustomException(ErrorCode.INVALID_REQUEST_FOR_DATABASE);
     }
 }
