@@ -15,14 +15,12 @@ public class FilotShopApplication {
     public static final String APPLICATION_LOCATIONS =
             "spring.config.location=" +
                     "classpath:application.yml" ;
-//                    "classpath:aws.yml";
-
     public static void main(String[] args) {
 
-//        SpringApplication.run(FilotShopApplication.class, args);
-        new SpringApplicationBuilder(FilotShopApplication.class)
-                .properties(APPLICATION_LOCATIONS)
-                .run(args);
+        SpringApplication.run(FilotShopApplication.class, args);
+//        new SpringApplicationBuilder(FilotShopApplication.class)
+//                .properties(APPLICATION_LOCATIONS)
+//                .run(args);
     }
 
 
