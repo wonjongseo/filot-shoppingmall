@@ -21,7 +21,7 @@ public class CategoryController {
     @GetMapping(value = "/categories/{category_id}")
     public List<CategoryDTO> showCategoryList(@PathVariable(value = "category_id") String name) {
 
-        if (name.equals("parents")) return categoryService.findAllParentCategory();
+        if (name.equals("main")) return categoryService.findAllParentCategory();
 
         Category category = categoryService.findCategoryByName(name).
                 orElseThrow(() -> new CustomException(ErrorCode.INVALID_REQUEST));
