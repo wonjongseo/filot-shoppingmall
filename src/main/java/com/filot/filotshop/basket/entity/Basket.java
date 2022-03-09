@@ -16,7 +16,6 @@ import javax.persistence.*;
 
 @Data
 @Builder
-@ToString(exclude = {"user , product"})
 @NoArgsConstructor
 @AllArgsConstructor
 public class Basket extends BaseEntity {

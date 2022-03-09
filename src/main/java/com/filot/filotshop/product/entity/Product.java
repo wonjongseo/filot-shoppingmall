@@ -40,8 +40,8 @@ public class Product  extends BaseEntity {
 
     @Column
     private int price;
-
-    // 없애도 될 듯 ?
+//
+// 없애도 될 듯 ?
     @Column(columnDefinition = "int(11) default 0")
     private int savePoint;
 
@@ -61,7 +61,6 @@ public class Product  extends BaseEntity {
 
     private String color;
 
-    private LocalDateTime createdAt;
     @ManyToOne
     @JoinColumn(name = "CATEGORY_PRODUCT_ID")
     private Category category;

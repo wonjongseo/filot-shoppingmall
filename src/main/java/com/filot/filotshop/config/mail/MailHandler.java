@@ -1,18 +1,10 @@
 package com.filot.filotshop.config.mail;
 
-import com.filot.filotshop.commons.service.S3Service;
-import com.filot.filotshop.config.AmazonS3Config;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.thymeleaf.standard.expression.MessageExpression;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.File;
-import java.io.IOException;
 
 public class MailHandler {
     private JavaMailSender sender;

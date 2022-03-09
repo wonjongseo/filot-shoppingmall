@@ -28,13 +28,9 @@ public class ProductController {
             @RequestParam(name = "sort", required = false) String sort) {
 
         if (page == null && sort == null) {
-            // 따로 정렬 쿼리 없으면
             if (name.equals("main")) {
-                // 모든 상품 조회
-                //findProductByCategoryName
                 return productService.findAllProducts();
             } else {
-                // 카테고리 이름에 맞는 상품 조회
                 return categoryService.findProductByName(name);
             }
         } else {

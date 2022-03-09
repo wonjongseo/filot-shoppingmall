@@ -1,4 +1,4 @@
-package com.filot.filotshop.controller;
+package com.filot.filotshop.commons.controller;
 
 import com.filot.filotshop.commons.entity.ProductsCategoriesDTO;
 import com.filot.filotshop.user.entity.User;

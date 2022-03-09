@@ -8,6 +8,8 @@ import com.filot.filotshop.user.entity.*;
 import com.filot.filotshop.config.mail.MailService;
 import com.filot.filotshop.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,7 +29,8 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
     private final MailService mailService;
-    private final RedisService redisService;
+//        private final RedisService redisService;
+    private final RedisTemplate<String, String> redisTemplate;
 
 
     @PostMapping("/join")
@@ -102,8 +105,9 @@ public class AuthController {
         }
         String authKey = mailService.mailSend(email, MailService.FIND_PASSWORD_MAIL);
 
-        Jedis jedis = redisService.jedisPool().getResource();
-        jedis.set(authKey, user.getEmail());
+//        Jedis jedis = redisService.jedisPool().getResource();
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        valueOperations.set(authKey, user.getEmail());
 
         return ResponseEntity.status(200).body(authKey);
     }
@@ -113,10 +117,11 @@ public class AuthController {
     @PostMapping("/users/password/email/code")
     public ResponseEntity<String> verifyCodeForPassword(@RequestBody UpdateDTO updateDTO) throws URISyntaxException {
 
-        Jedis jedis = redisService.jedisPool().getResource();
+//        Jedis jedis = redisService.jedisPool().getResource();
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        String valueEmail = valueOperations.get(updateDTO.getCode());
 
-        String valueEmail = jedis.get(updateDTO.getCode());
-
+        System.out.println("valueEmail = " + valueEmail);
         if (updateDTO.getEmail().equals(valueEmail)) {
             userService.changePassword(updateDTO.getEmail(), updateDTO.getNewPassword());
         } else{

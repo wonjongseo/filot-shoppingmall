@@ -17,10 +17,11 @@ public class FilotShopApplication {
                     "classpath:application.yml" ;
     public static void main(String[] args) {
 
-        SpringApplication.run(FilotShopApplication.class, args);
-//        new SpringApplicationBuilder(FilotShopApplication.class)
-//                .properties(APPLICATION_LOCATIONS)
-//                .run(args);
+//        SpringApplication.run(FilotShopApplication.class, args);
+
+        new SpringApplicationBuilder(FilotShopApplication.class)
+                .properties(APPLICATION_LOCATIONS)
+                .run(args);
     }
 
 

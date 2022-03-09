@@ -27,13 +27,6 @@ public class Category extends BaseEntity {
     @Column(unique = true, length = 10)
     private String name;
 
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(name = "CATEGORY_PRODUCT",
-//            joinColumns = @JoinColumn(name = "CATEGORY_ID"),
-//            inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID")
-//    )
-//    private List<Product> products = new ArrayList<>();
-
 
     @OneToMany(mappedBy = "category", fetch =  FetchType.LAZY)
     private List<Product> products = new ArrayList<>();
@@ -45,15 +38,6 @@ public class Category extends BaseEntity {
 
     @OneToMany(mappedBy = "parent" ,fetch = FetchType.LAZY)
     private List<Category> child = new ArrayList<>();
-
-    public void addChildCategory(Category category) {
-        if(!child.contains(category))
-            child.add(category);
-        category.setParent(this);
-    }
-
-
-
 
 
 }

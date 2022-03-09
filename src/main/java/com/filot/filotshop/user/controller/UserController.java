@@ -12,8 +12,6 @@ import com.filot.filotshop.basket.service.BasketService;
 import com.filot.filotshop.user.entity.UserDTO;
 import com.filot.filotshop.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

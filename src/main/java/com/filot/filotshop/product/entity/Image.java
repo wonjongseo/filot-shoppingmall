@@ -1,5 +1,6 @@
 package com.filot.filotshop.product.entity;
 
+import com.filot.filotshop.commons.entity.BaseEntity;
 import com.filot.filotshop.product.entity.Product;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,9 +9,10 @@ import javax.persistence.*;
 
 @Entity
 @Getter @Setter
-public class Image {
+public class Image extends BaseEntity {
     @Id
     @GeneratedValue
+    @Column(name = "IMAGE_ID")
     private Long id;
 
     private String url;
