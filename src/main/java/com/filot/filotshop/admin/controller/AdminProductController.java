@@ -33,14 +33,13 @@ public class AdminProductController {
 
     @PostMapping("/image")
     public ResponseEntity<String> uploads(
-            @RequestParam("id") Product product ,
+            @RequestParam("product_id") Product product ,
             @RequestParam("category_name") String categoryName,
             MultipartFile[] files)  {
 
         for (MultipartFile file : files) {
             checkMimeType(file);
             Image image = new Image();
-
             image.setUrl(s3Uploader.upload(file,categoryName));
             image.setProduct(product);
             imageRepository.save(image);

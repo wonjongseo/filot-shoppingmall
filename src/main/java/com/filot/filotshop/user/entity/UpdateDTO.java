@@ -4,7 +4,10 @@ import lombok.Data;
 
 @Data
 public class UpdateDTO {
-    private String email;
-    private String newPassword;
-    private String code;
+
+    private String name;
+    private String phoneNumber;
+    private String detailAddress;
+    private String roadAddress;
+
 }

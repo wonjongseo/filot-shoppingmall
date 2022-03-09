@@ -1,6 +1,5 @@
 package com.filot.filotshop.user.controller;
 
-import com.filot.filotshop.config.RedisService;
 import com.filot.filotshop.config.secuity.JwtTokenProvider;
 import com.filot.filotshop.exception.CustomException;
 import com.filot.filotshop.exception.ErrorCode;
@@ -13,9 +12,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -106,6 +103,7 @@ public class AuthController {
         String authKey = mailService.mailSend(email, MailService.FIND_PASSWORD_MAIL);
 
 //        Jedis jedis = redisService.jedisPool().getResource();
+
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
         valueOperations.set(authKey, user.getEmail());
 
@@ -115,7 +113,7 @@ public class AuthController {
 
 
     @PostMapping("/users/password/email/code")
-    public ResponseEntity<String> verifyCodeForPassword(@RequestBody UpdateDTO updateDTO) throws URISyntaxException {
+    public ResponseEntity<String> verifyCodeForPassword(@RequestBody findPasswordDTO updateDTO) throws URISyntaxException {
 
 //        Jedis jedis = redisService.jedisPool().getResource();
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();

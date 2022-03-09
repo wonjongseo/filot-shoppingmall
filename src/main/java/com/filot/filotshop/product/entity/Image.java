@@ -12,7 +12,6 @@ import javax.persistence.*;
 public class Image extends BaseEntity {
     @Id
     @GeneratedValue
-    @Column(name = "IMAGE_ID")
     private Long id;
 
     private String url;

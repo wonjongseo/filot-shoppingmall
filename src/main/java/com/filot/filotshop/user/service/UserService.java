@@ -1,9 +1,7 @@
 package com.filot.filotshop.user.service;
 
-import com.filot.filotshop.user.entity.JoinForm;
-import com.filot.filotshop.user.entity.Address;
+import com.filot.filotshop.user.entity.*;
 import com.filot.filotshop.basket.entity.Basket;
-import com.filot.filotshop.user.entity.User;
 import com.filot.filotshop.exception.CustomException;
 import com.filot.filotshop.exception.ErrorCode;
 import com.filot.filotshop.basket.repository.BasketRepository;
@@ -76,6 +74,27 @@ public class UserService  implements UserDetailsService {
         System.out.println("user.getPassword() = " + user.getPassword());
 
         return user.getPassword();
+
+
+    }
+    @Transactional
+    public UserDTO updateUser(String loggedInUserEmail, UpdateDTO updateDTO) {
+
+        User user = userRepository.findByEmail(loggedInUserEmail).get();
+
+        if(updateDTO.getDetailAddress() != null){
+            user.getAddress().setDetailAddress(updateDTO.getDetailAddress());
+        }
+        if (updateDTO.getRoadAddress() != null) {
+            user.getAddress().setRoadAddress(updateDTO.getDetailAddress());
+        }
+        if (updateDTO.getPhoneNumber() != null) {
+            user.setPhoneNumber(updateDTO.getPhoneNumber());
+        }
+        if (updateDTO.getName() != null) {
+            user.setName(updateDTO.getName());
+        }
+        return UserDTO.createUserDTO(user);
 
 
     }

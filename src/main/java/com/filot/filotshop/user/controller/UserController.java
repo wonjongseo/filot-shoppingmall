@@ -1,7 +1,5 @@
 package com.filot.filotshop.user.controller;
 
-import com.filot.filotshop.config.RedisService;
-import com.filot.filotshop.config.mail.MailService;
 import com.filot.filotshop.config.secuity.JwtTokenProvider;
 import com.filot.filotshop.basket.entity.BasketDTO;
 import com.filot.filotshop.exception.CustomException;
@@ -12,15 +10,11 @@ import com.filot.filotshop.basket.service.BasketService;
 import com.filot.filotshop.user.entity.UserDTO;
 import com.filot.filotshop.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,6 +31,14 @@ public class UserController {
     public List<BasketDTO> showUserBasket(HttpServletRequest request) {
         String userEmail = jwtTokenProvider.getUserEmail(request);
         return basketService.getAllBasket(userEmail);
+    }
+
+    @PutMapping
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UpdateDTO updateDTO, HttpServletRequest request) {
+        String loggedInUserEmail = jwtTokenProvider.getUserEmail(request);
+        UserDTO userDTO = userService.updateUser(loggedInUserEmail, updateDTO);
+
+        return ResponseEntity.ok(userDTO);
     }
 
 

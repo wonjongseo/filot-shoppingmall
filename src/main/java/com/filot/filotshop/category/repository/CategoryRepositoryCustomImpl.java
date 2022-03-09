@@ -1,5 +1,6 @@
 package com.filot.filotshop.category.repository;
 
+import com.filot.filotshop.category.entity.Category;
 import com.filot.filotshop.category.entity.CategoryDTO;
 import com.filot.filotshop.product.entity.ProductDTO;
 import lombok.RequiredArgsConstructor;
@@ -28,13 +29,25 @@ public class CategoryRepositoryCustomImpl implements CategoryRepositoryCustom{
     }
 
 
-
-
     @Override
     public List<CategoryDTO> findAllParentCategory() {
-        List<Object[]> categoryDTOs = em.createQuery(SELECT_CATEGORYDTO + " where c.parent is null").getResultList();
+//        List<Object[]> categoryDTOs = em.createQuery(SELECT_CATEGORYDTO + " where c.parent is null").getResultList();
+//        return createCategoryDTO(categoryDTOs);
 
-        return createCategoryDTO(categoryDTOs);
+        List<Category> resultList = em.createQuery("select c From Category  c where  c.parent is null", Category.class).getResultList();
+        System.out.println("resultList.size() = " + resultList.size());
+        List<CategoryDTO> categoryDTOList = new ArrayList<>();
+
+        for (Category category : resultList) {
+            CategoryDTO categoryDTO = new CategoryDTO(category.getId(), category.getName());
+            for (Category child : category.getChild()) {
+                categoryDTO.getChildren().add(new CategoryDTO(child.getId(), child.getName()));
+            }
+            categoryDTOList.add(categoryDTO);
+        }
+
+
+        return categoryDTOList;
     }
 
 
