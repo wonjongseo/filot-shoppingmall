@@ -1,7 +1,6 @@
 package com.filot.filotshop.product.entity;
 
 import com.filot.filotshop.commons.entity.BaseEntity;
-import com.filot.filotshop.product.entity.Product;
 import lombok.Getter;
 import lombok.Setter;
 

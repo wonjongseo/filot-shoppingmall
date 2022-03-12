@@ -56,7 +56,6 @@ public class UserService  implements UserDetailsService {
 
     
     public Basket findBasketByBasketId( Long basketId){
-
         return basketRepository.getById(basketId);
     }
 
@@ -74,8 +73,6 @@ public class UserService  implements UserDetailsService {
         System.out.println("user.getPassword() = " + user.getPassword());
 
         return user.getPassword();
-
-
     }
     @Transactional
     public UserDTO updateUser(String loggedInUserEmail, UpdateDTO updateDTO) {
@@ -95,7 +92,10 @@ public class UserService  implements UserDetailsService {
             user.setName(updateDTO.getName());
         }
         return UserDTO.createUserDTO(user);
+    }
 
-
+    public User findUserByPhoneNumber(String phoneNumber) {
+        return userRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(()-> new CustomException(ErrorCode.USER_NOT_FOUND));
     }
 }

@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.activation.MimetypesFileTypeMap;
 import java.io.File;
+import java.io.IOException;
 
 
 @RestController
@@ -29,25 +30,43 @@ public class AdminProductController {
     private final ProductService productService;
     private final S3Service s3Uploader;
     private final ImageRepository imageRepository;
+    private final String UPLOAD_FOLDER = "/Users/wonjongseo/aStudy/Filot-Shop/src/main/resources/static/img";
+
+    private String saveImageInLocalMemory(MultipartFile file){
+        String uploadFileName = file.getOriginalFilename();
+        File saveFile = new File(UPLOAD_FOLDER, uploadFileName);
+        try {
+            file.transferTo(saveFile);
+            return saveFile.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        throw new CustomException(ErrorCode.FAIL_UPLOAD_IMAGE);
+    }
 
 
     @PostMapping("/image")
     public ResponseEntity<String> uploads(
             @RequestParam("product_id") Product product ,
             @RequestParam("category_name") String categoryName,
+            @RequestHeader(value="Host") String host,
             MultipartFile[] files)  {
 
         for (MultipartFile file : files) {
             checkMimeType(file);
             Image image = new Image();
-            image.setUrl(s3Uploader.upload(file,categoryName));
+
+            if(host.equals("localhost:8080")){
+                image.setUrl(saveImageInLocalMemory(file));
+            }else{
+                image.setUrl(s3Uploader.upload(file,categoryName));
+            }
+
             image.setProduct(product);
             imageRepository.save(image);
         }
-
         return ResponseEntity.ok("success");
     }
-
 
     @PutMapping("/{product_id}")
     public ResponseEntity<Integer> changeProductAmount(
@@ -71,11 +90,19 @@ public class AdminProductController {
 
     }
 
-
     @PostMapping("/")
-    public ResponseEntity<ProductDTO> postProduct(ProductForm productForm, MultipartFile file) {
+    public ResponseEntity<ProductDTO> postProduct(ProductForm productForm, MultipartFile file,@RequestHeader(value="Host") String host) {
         checkMimeType(file);
-        String url = s3Uploader.upload(file, productForm.getCategoryName());
+
+        String url = "";
+
+        if(host.equals("localhost:8080")){
+            url = saveImageInLocalMemory(file);
+
+        }else{
+            url = s3Uploader.upload(file, productForm.getCategoryName());
+        }
+
         Product product = productService.addProduct(productForm,url);
 
         return ResponseEntity.ok(ProductDTO.createProductDTO(product));

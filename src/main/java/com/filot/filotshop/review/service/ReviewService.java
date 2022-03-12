@@ -1,6 +1,4 @@
 package com.filot.filotshop.review.service;
-
-
 import com.filot.filotshop.review.entity.ReviewDTO;
 import com.filot.filotshop.review.entity.ReviewForm;
 import com.filot.filotshop.product.entity.Product;
@@ -10,7 +8,6 @@ import com.filot.filotshop.exception.CustomException;
 import com.filot.filotshop.exception.ErrorCode;
 import com.filot.filotshop.review.repository.ReviewRepository;
 import com.filot.filotshop.user.repository.UserRepository;
-import com.filot.filotshop.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,14 +20,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewService {
 
-    private final ReviewRepository repository;
+    private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
     private final EntityManager em;
 
     @Transactional
     public Long removeReview(Long id) {
-        Review review = repository.getById(id);
-         repository.delete(review);
+        Review review = reviewRepository.getById(id);
+        reviewRepository.delete(review);
         return review.getId();
     }
 
@@ -42,10 +39,21 @@ public class ReviewService {
         Product product = em.getReference(Product.class, productId);
         Review review = Review.createReview(reviewForm, user, product);
 
-        return repository.save(review).getId();
+        return reviewRepository.save(review).getId();
     }
 
     public List<ReviewDTO> getReviewDTOsByProductId (Long productId,int page){
-        return repository.getAllReviewDTO(productId,page);
+        return reviewRepository.getAllReviewDTO(productId,page);
+    }
+
+    @Transactional
+    public void update(Long reviewId, ReviewForm reviewForm) {
+
+        Review review = reviewRepository.getById(reviewId);
+//{{base}}/products/109/reviews/12
+        review.setContent(reviewForm.getContent());
+        review.setRate(reviewForm.getRate());
+        review.setTitle(reviewForm.getTitle());
+
     }
 }

@@ -22,9 +22,11 @@ public class AdminController {
 
     @PostMapping("/banners")
     public ResponseEntity<String> postBannerUrl(MultipartFile bannerFile) {
-        String bannerUrl=  s3Service.upload(bannerFile,"banner");
-        return ResponseEntity.ok(bannerUrl);
+//        String bannerUrl= s3Service.upload(bannerFile,"banner");
+        String banner = s3Service.uploadToS3(bannerFile, "banner");
+        return ResponseEntity.ok(banner);
     }
+
 
     @GetMapping("/banners")
     public ResponseEntity<String> getBannerUrl(@RequestParam(required = false) String bannerName) {

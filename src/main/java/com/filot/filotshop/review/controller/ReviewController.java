@@ -27,7 +27,6 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final UserRepository userRepository;
 
-
     // ok
     @PostMapping("/products/{product_id}/reviews")
     public Long addReview(HttpServletRequest rep,
@@ -54,25 +53,6 @@ public class ReviewController {
         return reviewService.createReviewWithUserEmailAndProductId(reviewForm, userEmail, productId);
     }
 
-
-//ok
-    @DeleteMapping("/products/{product_id}/reviews")
-    public ResponseEntity<Long> deleteReview(@RequestParam(name = "review_id") Long review_id) {
-        Long removedId = reviewService.removeReview(review_id);
-
-        return new ResponseEntity<>(removedId, HttpStatus.OK);
-    }
-
-
-    /*
-    @OrderBy("name ASC")
-List <Foo> fooList;
-
-Sorting the entity containing the collection:
-String jql = "Select b from Bar as b order by b.id";
-Query barQuery = entityManager.createQuery(jql);
-List<Bar> barList = barQuery.getResultList();
-     */
     @GetMapping("/products/{product_id}/reviews")
     public List<ReviewDTO> showReviewByProductId(
             @PathVariable(name = "product_id") Long productId,
@@ -81,25 +61,42 @@ List<Bar> barList = barQuery.getResultList();
         return reviewService.getReviewDTOsByProductId(productId, page);
     }
 
-
-     // 또 이거 api 바꿔야해 너무 구려
+//12
     @PutMapping("/products/{product_id}/reviews/{review_id}")
-    public ResponseEntity updateReview(
-                                    @PathVariable(name = "product_id") Long productId,
-                                    @PathVariable(name = "review_id") Review review,
+    public ResponseEntity<ReviewForm> updateReview(
+                                    @PathVariable(name = "review_id") Long  review_id,
+                                    HttpServletRequest request,
                                     @RequestBody ReviewForm reviewForm
     ) {
-        /*
-        이게 서버 단에서 기존 내용이랑 변경 내용을 조건문으로 체크해서 변경해줘야하나 ?
-        아니면 프론트에서 변경된 내용만 알려줄수 있을까 ?
-        변경된 내용만 알려준다면 난 파라미터를 어떻게 받아야하지 ?
-        이거 어캐함 ㅡ,ㅡ
-         */
-        System.out.println("review.getContent() = " + review.getContent());
-        review.setContent(reviewForm.getContent());
+        String userEmail = jwtTokenProvider.getUserEmail(request);
+        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        return new ResponseEntity(HttpStatus.OK);
+        List<Review> reviews = user.getReviews();
+
+        for (Review review : reviews) {
+            if (review.getId() == review_id) {
+                reviewService.update(review.getId(), reviewForm);
+                return ResponseEntity.status(HttpStatus.OK).body(reviewForm);
+            }
+        }
+        throw new CustomException(ErrorCode.NOT_AUTHORIZATION);
+
     }
 
-    //{{base}}/products/{id}/reviews
+    @DeleteMapping("/products/{product_id}/reviews")
+    public ResponseEntity<Long> deleteReview(@RequestParam(name = "review_id") Long review_id, HttpServletRequest request) {
+        String userEmail = jwtTokenProvider.getUserEmail(request);
+        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        List<Review> reviews = user.getReviews();
+
+        for (Review review : reviews) {
+            if (review.getId() == review_id) {
+                Long removedId = reviewService.removeReview(review_id);
+                return new ResponseEntity<>(removedId, HttpStatus.OK);
+            }
+        }
+        throw new CustomException(ErrorCode.NOT_AUTHORIZATION);
+    }
+
 }

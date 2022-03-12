@@ -40,12 +40,12 @@ public class ProductService {
     @Transactional
     public Product addProduct(ProductForm productForm, String url) {
         Product product = Product.createProduct(productForm,url);
+
         Category category = categoryRepository.findByName(productForm.getCategoryName())
                 .orElseThrow(() -> new CustomException(ErrorCode.CATEGORY_NOT_FOUND));
         product.setCategory(category);
 
-        return   productRepository.save(product);
-
+        return  productRepository.save(product);
 
     }
 
@@ -62,6 +62,7 @@ public class ProductService {
         product.changeAmount(amount);
         return product.getAmount();
     }
+
     public Product findProductById(Long id){
         return productRepository.findById(id).orElseThrow(()-> new CustomException(ErrorCode.INVALID_REQUEST_SORT));
     }

@@ -34,7 +34,7 @@ public class Order extends BaseEntity {
     private String refundStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PRODUCT_ORDER_USER_ID")
+    @JoinColumn(name = "ORDER_USER_ID")
     private User user;
 
     @OneToMany(mappedBy = "productOrder" ,cascade = CascadeType.ALL)

@@ -53,7 +53,8 @@ public class AdminUserController {
     }
 
     @PutMapping("/{user_id}")
-    public ResponseEntity<UserDTO> restoreUser(@PathVariable(value = "user_id") Long userId) {
+    public ResponseEntity<UserDTO> restoreUser
+            (@PathVariable(value = "user_id") Long userId) {
         adminService.restoreUser(userId);
         return null;
     }

@@ -41,7 +41,7 @@ public class Basket extends BaseEntity {
     User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BASKET_PRODUCT_ORDER_ID")
+    @JoinColumn(name = "BASKET_ORDER_ID")
     private Order productOrder;
 
     public int getTotalPrice() {

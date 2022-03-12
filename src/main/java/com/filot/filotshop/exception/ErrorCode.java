@@ -15,6 +15,7 @@ public enum ErrorCode {
     INVALID_REFRESH_TOKEN(BAD_REQUEST, "리프레시 토큰이 유효하지 않습니다"),
 
     INVALID_REQUEST(BAD_REQUEST ,"입력한 정보로부터 에러가 발생했습니다."),
+    INVALID_REQUEST_RATE(BAD_REQUEST ,"리뷰는 0부터 5까지 입력 받을 수 있습니다."),
     INVALID_REQUEST_SORT(BAD_REQUEST, "해당 방법으로 조회 할 수 없습니다"),
     INVALID_REQUEST_IMAGE(BAD_REQUEST ,"파일 형식이 옳바르지 않습니다."),
     //조건을  장바구니에서 ORDER로 바꿔야함
@@ -32,6 +33,7 @@ public enum ErrorCode {
     MISMATCH_FILE_MIMETYPE(BAD_REQUEST,"이미지 파일만 처리할 수 있습니다."),
 
     MISMATCH_VERIFY_CODE(UNAUTHORIZED,"이메일 인증 코드가 옳바르지 않습니다."),
+    NOT_AUTHORIZATION(UNAUTHORIZED,"권한이 없습니다."),
     FAIL_JOIN(UNAUTHORIZED,"회원가입에 실패하셨습니다."),
 
 
@@ -61,7 +63,8 @@ public enum ErrorCode {
 
     // basket
 
-    INVALID_NUMBER(BAD_REQUEST , "0 이상의 수를 입력해주세요")
+    INVALID_NUMBER(BAD_REQUEST , "0 이상의 수를 입력해주세요"),
+    FAIL_UPLOAD_IMAGE(METHOD_NOT_ALLOWED, "이미지 업로드에 실패하였습니다")
     ;
 
 

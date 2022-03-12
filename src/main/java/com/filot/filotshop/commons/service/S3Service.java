@@ -1,20 +1,22 @@
 package com.filot.filotshop.commons.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.internal.Mimetypes;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteBucketRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.util.IOUtils;
 import com.filot.filotshop.exception.CustomException;
 import com.filot.filotshop.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
@@ -41,6 +43,31 @@ public class S3Service {
 
         return upload(uploadFile, dirName);
     }
+
+
+    public String uploadToS3( MultipartFile multipartFile,String categoryName) {
+        String oriName = categoryName +"/"+ multipartFile.getOriginalFilename();
+        System.out.println("oriName = " + oriName);
+
+
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentType(Mimetypes.getInstance().getMimetype(multipartFile.getOriginalFilename()));
+        byte[] bytes ;
+        ByteArrayInputStream byteArrayInputStream = null;
+        try{
+            bytes = IOUtils.toByteArray(multipartFile.getInputStream());
+            objectMetadata.setContentLength(bytes.length);
+            byteArrayInputStream = new ByteArrayInputStream(bytes);
+            PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, oriName, byteArrayInputStream, objectMetadata);
+            amazonS3Client.putObject(putObjectRequest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return amazonS3Client.getUrl(bucket, oriName).toString();
+    }
+
 
     // S3로 파일 업로드하기
     private String upload(File uploadFile, String dirName) {
@@ -69,7 +96,6 @@ public class S3Service {
         }
         log.info("File delete fail");
     }
-    // TOP/54eb28af-1f5c-45f5-88de-07ad70232049_clothesA.jpg
 
     // 로컬에 파일 업로드 하기
     private Optional<File> convert(MultipartFile file)  {

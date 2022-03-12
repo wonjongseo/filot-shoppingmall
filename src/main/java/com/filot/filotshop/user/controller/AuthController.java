@@ -26,8 +26,7 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
     private final MailService mailService;
-//        private final RedisService redisService;
-    private final RedisTemplate<String, String> redisTemplate;
+
 
 
     @PostMapping("/join")
@@ -89,44 +88,6 @@ public class AuthController {
         return jwtTokenProvider.createToken(foundUser.getEmail(), foundUser.getRoles());
     }
 
-
-    @PostMapping("/users/password/email")
-    public ResponseEntity<String> findPassword(@RequestBody Map<String,String> emailOjb) throws URISyntaxException {
-
-        String email = emailOjb.get("email");
-
-        User user = userService.findUserByEmail(email);
-
-        if (user== null) {
-            throw new CustomException(ErrorCode.USER_NOT_FOUND);
-        }
-        String authKey = mailService.mailSend(email, MailService.FIND_PASSWORD_MAIL);
-
-//        Jedis jedis = redisService.jedisPool().getResource();
-
-        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        valueOperations.set(authKey, user.getEmail());
-
-        return ResponseEntity.status(200).body(authKey);
-    }
-
-
-
-    @PostMapping("/users/password/email/code")
-    public ResponseEntity<String> verifyCodeForPassword(@RequestBody findPasswordDTO updateDTO) throws URISyntaxException {
-
-//        Jedis jedis = redisService.jedisPool().getResource();
-        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        String valueEmail = valueOperations.get(updateDTO.getCode());
-
-        System.out.println("valueEmail = " + valueEmail);
-        if (updateDTO.getEmail().equals(valueEmail)) {
-            userService.changePassword(updateDTO.getEmail(), updateDTO.getNewPassword());
-        } else{
-            throw new CustomException(ErrorCode.MISMATCH_VERIFY_CODE);
-        }
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(updateDTO.getNewPassword());
-    }
 
 
 }
