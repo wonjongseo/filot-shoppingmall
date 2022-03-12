@@ -46,6 +46,10 @@ public class S3Service {
 
 
     public String uploadToS3( MultipartFile multipartFile,String categoryName) {
+        if (multipartFile == null) {
+            System.out.println("multipartFIle is null ");
+
+        }
         String oriName = categoryName +"/"+ multipartFile.getOriginalFilename();
         System.out.println("oriName = " + oriName);
 
