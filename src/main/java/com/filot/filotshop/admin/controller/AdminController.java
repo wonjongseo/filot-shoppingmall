@@ -11,6 +11,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -21,8 +24,13 @@ public class AdminController {
     private final S3Service s3Service;
 
     @PostMapping("/banners")
-    public ResponseEntity<String> postBannerUrl(MultipartFile bannerFile) {
-//        String bannerUrl= s3Service.upload(bannerFile,"banner");
+    public ResponseEntity<String> postBannerUrl(MultipartFile bannerFile, HttpServletRequest request) {
+        Enumeration<String> parameterNames = request.getParameterNames();
+        while (parameterNames.hasMoreElements()) {
+            String s = parameterNames.nextElement();
+            System.out.println("s = " + s);
+            System.out.println("request.getParameter(s) = " + request.getParameter(s));
+        }
         String banner = s3Service.uploadToS3(bannerFile, "banner");
         return ResponseEntity.ok(banner);
     }

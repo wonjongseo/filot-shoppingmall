@@ -19,6 +19,7 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository{
 
     public final String SELECT_REVIEWDTO = "select r.id, r.title,r.rate,r.createAt,u.name";
     private List<ReviewDTO> createReviewDTO(List<Object[]> reviews){
+
         List<ReviewDTO> reviewDTOS = new ArrayList<>();
         for (Object[] review : reviews) {
             ReviewDTO reviewDTO = new ReviewDTO();
@@ -27,9 +28,7 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository{
             reviewDTO.setRate((Integer) review[2]);
             reviewDTO.setCreatedAt((LocalDateTime) review[3]);
             reviewDTO.setUserName((String) review[4]);
-
             reviewDTOS.add(reviewDTO);
-
         }
 
         return reviewDTOS;
