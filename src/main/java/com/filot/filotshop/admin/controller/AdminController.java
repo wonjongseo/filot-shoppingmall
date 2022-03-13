@@ -25,12 +25,8 @@ public class AdminController {
 
     @PostMapping("/banners")
     public ResponseEntity<String> postBannerUrl(MultipartFile bannerFile, HttpServletRequest request) {
-        Enumeration<String> parameterNames = request.getParameterNames();
-        while (parameterNames.hasMoreElements()) {
-            String s = parameterNames.nextElement();
-            System.out.println("s = " + s);
-            System.out.println("request.getParameter(s) = " + request.getParameter(s));
-        }
+        System.out.println("bannerFile.getOriginalFilename() = " + bannerFile.getOriginalFilename());
+        System.out.println("bannerFile = " + bannerFile);
         String banner = s3Service.uploadToS3(bannerFile, "banner");
         return ResponseEntity.ok(banner);
     }
