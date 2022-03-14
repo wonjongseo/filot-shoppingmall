@@ -51,7 +51,9 @@ public class S3Service {
         String oriName = "banner/banner.jpg";
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentType(Mimetypes.getInstance().getMimetype(multipartFile.getOriginalFilename()));
+//        objectMetadata.setContentType(Mimetypes.getInstance().getMimetype(multipartFile.getOriginalFilename()));
+//        System.out.println("Mimetypes.getInstance().getMimetype(multipartFile.getOriginalFilename()) = " + Mimetypes.getInstance().getMimetype(multipartFile.getOriginalFilename()));
+        objectMetadata.setContentType("image/jpeg");
 
         byte[] bytes ;
         ByteArrayInputStream byteArrayInputStream = null;
