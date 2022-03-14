@@ -1,5 +1,6 @@
 package com.filot.filotshop.user.controller;
 
+import com.filot.filotshop.config.HerokuRedisService;
 import com.filot.filotshop.config.mail.MailService;
 import com.filot.filotshop.config.secuity.JwtTokenProvider;
 import com.filot.filotshop.basket.entity.BasketDTO;
@@ -17,6 +18,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URISyntaxException;
@@ -36,19 +38,33 @@ public class UserController {
 
 
     @PostMapping("/password/email")
-    public ResponseEntity<String> findPassword(@RequestBody Map<String,String> emailOjb)  {
+    public ResponseEntity<String> findPassword(@RequestBody Map<String, String> emailOjb, HttpServletRequest request) {
 
         String email = emailOjb.get("email");
 
         User user = userService.findUserByEmail(email);
 
-        if (user== null) {
+        if (user == null) {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
         String authKey = mailService.mailSend(email, MailService.FIND_PASSWORD_MAIL);
+        String host = request.getHeader("host");
 
-        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        valueOperations.set(authKey, user.getEmail());
+//        if (host.equals("localhost:8080")) {
+//            System.out.println("In local");
+            ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+            valueOperations.set(authKey, user.getEmail());
+//        }
+//        else {
+//            System.out.println("In heroku");
+//            try {
+//                Jedis resource = herokuRedisService.jedisPool().getResource();
+//                resource.set(authKey, user.getEmail());
+//            } catch (URISyntaxException e) {
+//                e.print/StackTrace();
+//                System.out.println("e.getMessage() = " + e.getMessage());
+//            }
+//        }
 
         return ResponseEntity.status(200).body(authKey);
     }
@@ -56,12 +72,27 @@ public class UserController {
 
 
     @PostMapping("/password/email/code")
-    public ResponseEntity<String> verifyCodeForPassword(@RequestBody findPasswordDTO updateDTO) {
+    public ResponseEntity<String> verifyCodeForPassword(@RequestBody findPasswordDTO updateDTO,HttpServletRequest request) {
+        String host = request.getHeader("host");
+        String valueEmail = null;
+//        if (host.equals("localhost:8080")) {
+//            System.out.println("In local" );
+            ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+            valueEmail = valueOperations.get(updateDTO.getCode());    
+//        }
+//        else {
+//            System.out.println("In Heroku");
+//            Jedis resource = null;
+//            try {
+//                resource = herokuRedisService.jedisPool().getResource();
+//            } catch (URISyntaxException e) {
+//                e.printStackTrace();
+//                System.out.println("e.getMessage() = " + e.getMessage());
+//            }
+//            valueEmail = resource.get(updateDTO.getCode());
+//        }
+        
 
-        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        String valueEmail = valueOperations.get(updateDTO.getCode());
-
-        System.out.println("valueEmail = " + valueEmail);
         if (updateDTO.getEmail().equals(valueEmail)) {
             userService.changePassword(updateDTO.getEmail(), updateDTO.getNewPassword());
         } else{

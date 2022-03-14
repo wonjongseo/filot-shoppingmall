@@ -20,7 +20,7 @@ public class AdminCategoryController {
 
     private final CategoryService categoryService;
 
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<CategoryDTO> postCategory(@RequestBody CategoryForm form) {
         Category category = categoryService.addCategory(form);
         CategoryDTO categoryDTO = CategoryDTO.createCategoryDTO(category);

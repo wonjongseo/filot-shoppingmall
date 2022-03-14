@@ -1,11 +1,9 @@
-package com.filot.filotshop.commons.service;
+package com.filot.filotshop.config.s3;
 
+import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.internal.Mimetypes;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.DeleteBucketRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.IOUtils;
 import com.filot.filotshop.exception.CustomException;
 import com.filot.filotshop.exception.ErrorCode;
@@ -33,7 +31,10 @@ public class S3Service {
     public String bucket;  // S3 버킷 이름
 
     public String delete(String fileName) {
-        amazonS3Client.deleteObject(bucket, fileName);
+        System.out.println("fileName = " + fileName);
+
+            DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucket, fileName);
+            amazonS3Client.deleteObject(deleteObjectRequest);
         return "success";
     }
 
@@ -45,17 +46,13 @@ public class S3Service {
     }
 
 
-    public String uploadToS3( MultipartFile multipartFile,String categoryName) {
-        if (multipartFile == null) {
-            System.out.println("multipartFIle is null ");
+    public String uploadBanner( MultipartFile multipartFile ) {
 
-        }
-        String oriName = categoryName +"/"+ multipartFile.getOriginalFilename();
-        System.out.println("oriName = " + oriName);
-
+        String oriName = "banner/banner.jpg";
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(Mimetypes.getInstance().getMimetype(multipartFile.getOriginalFilename()));
+
         byte[] bytes ;
         ByteArrayInputStream byteArrayInputStream = null;
         try{
@@ -63,11 +60,11 @@ public class S3Service {
             objectMetadata.setContentLength(bytes.length);
             byteArrayInputStream = new ByteArrayInputStream(bytes);
             PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, oriName, byteArrayInputStream, objectMetadata);
+
             amazonS3Client.putObject(putObjectRequest);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         return amazonS3Client.getUrl(bucket, oriName).toString();
     }

@@ -1,18 +1,15 @@
 package com.filot.filotshop.admin.controller;
 
-import com.filot.filotshop.commons.service.S3Service;
-import lombok.Getter;
+import com.filot.filotshop.config.s3.S3Service;
+import com.filot.filotshop.config.LocalUploader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Enumeration;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,22 +19,27 @@ import java.util.Enumeration;
 public class AdminController {
 
     private final S3Service s3Service;
+    private final LocalUploader localUploader;
 
     @PostMapping("/banners")
     public ResponseEntity<String> postBannerUrl(MultipartFile bannerFile, HttpServletRequest request) {
-        System.out.println("bannerFile.getOriginalFilename() = " + bannerFile.getOriginalFilename());
-        System.out.println("bannerFile = " + bannerFile);
-        String banner = s3Service.uploadToS3(bannerFile, "banner");
+        String host = request.getHeader("host");
+        String banner = "";
+
+        String bannerName = "banner/banner.jpg";
+
+        if (host.equals("localhost:8080")) {
+            localUploader.saveImageInLocalMemory(bannerFile,bannerName);
+            return ResponseEntity.ok(banner);
+        }
+
+        banner= s3Service.uploadBanner(bannerFile);
         return ResponseEntity.ok(banner);
     }
 
 
     @GetMapping("/banners")
-    public ResponseEntity<String> getBannerUrl(@RequestParam(required = false) String bannerName) {
-        if (bannerName == null) {
-            return ResponseEntity.ok(s3Service.getUrl("banner/banner.jpg"));
-        }
-        String bannerUrl = "banner/" + bannerName + ".jpg";
-        return ResponseEntity.ok(s3Service.getUrl(bannerUrl));
+    public ResponseEntity<String> getBannerUrl() {
+        return ResponseEntity.ok(s3Service.getUrl("banner/banner.jpg"));
     }
 }

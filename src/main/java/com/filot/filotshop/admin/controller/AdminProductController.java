@@ -1,6 +1,7 @@
 package com.filot.filotshop.admin.controller;
 
-import com.filot.filotshop.commons.service.S3Service;
+import com.filot.filotshop.config.s3.S3Service;
+import com.filot.filotshop.config.LocalUploader;
 import com.filot.filotshop.product.entity.ProductDTO;
 import com.filot.filotshop.product.entity.ProductForm;
 import com.filot.filotshop.product.entity.Image;
@@ -18,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.activation.MimetypesFileTypeMap;
 import java.io.File;
-import java.io.IOException;
 
 
 @RestController
@@ -30,19 +30,8 @@ public class AdminProductController {
     private final ProductService productService;
     private final S3Service s3Uploader;
     private final ImageRepository imageRepository;
-    private final String UPLOAD_FOLDER = "/Users/wonjongseo/aStudy/Filot-Shop/src/main/resources/static/img";
+    private final LocalUploader localUploader;
 
-    private String saveImageInLocalMemory(MultipartFile file){
-        String uploadFileName = file.getOriginalFilename();
-        File saveFile = new File(UPLOAD_FOLDER, uploadFileName);
-        try {
-            file.transferTo(saveFile);
-            return saveFile.getAbsolutePath();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        throw new CustomException(ErrorCode.FAIL_UPLOAD_IMAGE);
-    }
 
 
     @PostMapping("/image")
@@ -57,7 +46,7 @@ public class AdminProductController {
             Image image = new Image();
 
             if(host.equals("localhost:8080")){
-                image.setUrl(saveImageInLocalMemory(file));
+                image.setUrl(localUploader.saveImageInLocalMemory(file));
             }else{
                 image.setUrl(s3Uploader.upload(file,categoryName));
             }
@@ -95,16 +84,12 @@ public class AdminProductController {
         checkMimeType(file);
 
         String url = "";
-
         if(host.equals("localhost:8080")){
-            url = saveImageInLocalMemory(file);
-
+            url = localUploader.saveImageInLocalMemory(file);
         }else{
             url = s3Uploader.upload(file, productForm.getCategoryName());
         }
-
         Product product = productService.addProduct(productForm,url);
-
         return ResponseEntity.ok(ProductDTO.createProductDTO(product));
     }
 

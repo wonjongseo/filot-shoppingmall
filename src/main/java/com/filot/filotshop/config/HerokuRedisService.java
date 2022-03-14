@@ -1,6 +1,5 @@
 package com.filot.filotshop.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisPool;
@@ -10,14 +9,13 @@ import redis.clients.jedis.Protocol;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+//@Component
+public class HerokuRedisService {
 
-public class RedisService {
-    @Value("${spring.redis.host}")
-    private String url;
+    private String url = "redis://default:1BZceU1M8tcmu5Xca9jFyiG4vGSYa3Zz@redis-18106.c81.us-east-1-2.ec2.cloud.redislabs.com:18106";
 
     @Bean
     public JedisPool jedisPool() throws URISyntaxException {
-        System.out.println("url = " + url);
         URI redisUri = new URI(url);
         JedisPool pool = new JedisPool(new JedisPoolConfig(),
                 redisUri.getHost(),

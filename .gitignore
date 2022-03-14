@@ -3,10 +3,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-src/main/resources/application.yml
-src/main/resources/aws.yml
-/ppt
 
+/ppt
 
 #src/main/java/com/filot/filotshop/learning
 ### STS ###
@@ -37,3 +35,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+src/main/resources/application.yml
+src/main/resources/application2.yml
