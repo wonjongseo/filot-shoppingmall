@@ -51,11 +51,10 @@ public class S3Service {
         String oriName = "banner/banner.jpg";
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
-//        objectMetadata.setContentType(Mimetypes.getInstance().getMimetype(multipartFile.getOriginalFilename()));
-//        System.out.println("Mimetypes.getInstance().getMimetype(multipartFile.getOriginalFilename()) = " + Mimetypes.getInstance().getMimetype(multipartFile.getOriginalFilename()));
-        objectMetadata.setContentType("image/jpeg");
-
+        objectMetadata.setContentType(Mimetypes.getInstance().getMimetype(multipartFile.getOriginalFilename()));
+        System.out.println("Mimetypes.getInstance().getMimetype(multipartFile.getOriginalFilename()) = " + Mimetypes.getInstance().getMimetype(multipartFile.getOriginalFilename()));
         byte[] bytes ;
+
         ByteArrayInputStream byteArrayInputStream = null;
         try{
             bytes = IOUtils.toByteArray(multipartFile.getInputStream());

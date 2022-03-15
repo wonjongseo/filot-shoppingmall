@@ -81,6 +81,10 @@ public class AdminProductController {
 
     @PostMapping("/")
     public ResponseEntity<ProductDTO> postProduct(ProductForm productForm, MultipartFile file,@RequestHeader(value="Host") String host) {
+        System.out.println("productForm = " + productForm);
+        System.out.println("file = " + file.getOriginalFilename());
+
+
         checkMimeType(file);
 
         String url = "";
