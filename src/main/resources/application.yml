@@ -1,0 +1,53 @@
+server:
+  port: 8080
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    s3:
+      bucket: filotshopping
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+spring:
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${CLEARDB_DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+
+
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_PASSWORD}
+    password: ${MAIL_USERNAME}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+    database: mysql
+logging:
+  level:
+    org.hibernate.SQL: debug
+
+
+
+
+
