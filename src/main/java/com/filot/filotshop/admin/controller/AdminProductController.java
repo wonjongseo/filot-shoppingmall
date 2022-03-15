@@ -83,9 +83,9 @@ public class AdminProductController {
     public ResponseEntity<ProductDTO> postProduct(ProductForm productForm, MultipartFile file,@RequestHeader(value="Host") String host) {
         System.out.println("productForm = " + productForm);
         System.out.println("file = " + file.getOriginalFilename());
+        System.out.println("file.getContentType() = " + file.getContentType());
 
-
-        checkMimeType(file);
+//        checkMimeType(file);
 
         String url = "";
         if(host.equals("localhost:8080")){
