@@ -28,10 +28,10 @@ public class AdminController {
 
         String bannerName = "banner/banner.jpg";
 
-//        if (host.equals("localhost:8080")) {
-//            localUploader.saveImageInLocalMemory(bannerFile,bannerName);
-//            return ResponseEntity.ok(banner);
-//        }
+        if (host.equals("localhost:8080")) {
+            localUploader.saveImageInLocalMemory(bannerFile,bannerName);
+            return ResponseEntity.ok(banner);
+        }
 
         banner= s3Service.uploadBanner(bannerFile);
         return ResponseEntity.ok(banner);

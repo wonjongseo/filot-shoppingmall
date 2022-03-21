@@ -4,7 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 /ppt
-
+src/main/java/com/coding/*
 #src/main/java/com/filot/filotshop/learning
 ### STS ###
 .apt_generated

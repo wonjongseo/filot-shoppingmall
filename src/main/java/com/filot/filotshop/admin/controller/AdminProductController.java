@@ -41,6 +41,9 @@ public class AdminProductController {
             @RequestHeader(value="Host") String host,
             MultipartFile[] files)  {
 
+        System.out.println("product.getName() = " + product.getName());
+        System.out.println("categoryName = " + categoryName);
+
         for (MultipartFile file : files) {
             checkMimeType(file);
             Image image = new Image();
