@@ -45,7 +45,7 @@ public class AdminProductController {
         System.out.println("categoryName = " + categoryName);
 
         for (MultipartFile file : files) {
-            checkMimeType(file);
+//            checkMimeType(file);
             Image image = new Image();
 
             if(host.equals("localhost:8080")){
