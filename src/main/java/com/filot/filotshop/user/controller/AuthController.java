@@ -28,9 +28,16 @@ public class AuthController {
     private final MailService mailService;
 
 
+    @PostMapping("/join2")
+    public UserDTO join2(@RequestBody JoinForm userForm) {
+        System.out.println("userForm.getEmail() = " + userForm.getEmail());
+        User user = userService.join(userForm);
+
+        return UserDTO.createUserDTO(user);
+    }
 
     @PostMapping("/join")
-    public void mailJoin(@RequestBody JoinForm userForm , HttpServletRequest request) {
+    public String mailJoin(@RequestBody JoinForm userForm , HttpServletRequest request) {
 
         if(userService.duplicateUser(userForm.getEmail())){
             throw new CustomException(ErrorCode.DUPLICATE_USER);
@@ -41,7 +48,8 @@ public class AuthController {
 
         String authKey = mailService.mailSend(userForm.getEmail(), MailService.JOIN_MAIL);
         httpSession.setAttribute("authKey", authKey);
-        ResponseEntity.status(201);
+
+        return authKey; 
     }
 
     @GetMapping("/join")
