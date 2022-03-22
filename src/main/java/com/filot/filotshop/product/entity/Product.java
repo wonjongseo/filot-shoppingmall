@@ -39,25 +39,21 @@ public class Product  extends BaseEntity {
 
     @Column
     private int price;
-//
-// 없애도 될 듯 ?
+
     @Column(columnDefinition = "int(11) default 0")
     private int savePoint;
 
     @Column(columnDefinition = "int(11) default 1")
     private  int amount;
-    //    @Lob
 
+    //    @Lob
     @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
-
     private String size;
 
     @Lob
     private  String description;
-
     private  String imageUrl;
-
     private String color;
 
     @ManyToOne
@@ -79,15 +75,11 @@ public class Product  extends BaseEntity {
         this.amount = changedAmount;
     }
 
-
     public void setCategory(Category category) {
         if (!category.getProducts().contains(this)) {
             category.getProducts().add(this);
         }
         this.category = category;
     }
-
-
-
 
 }
