@@ -14,6 +14,8 @@ public enum ErrorCode {
     /* 400 BAD_REQUEST : 잘못된 요청 */
     INVALID_REFRESH_TOKEN(BAD_REQUEST, "리프레시 토큰이 유효하지 않습니다"),
 
+    INVALID_INDEX(BAD_REQUEST, "인덱스를 잘못 요청하셨습니다"),
+
     INVALID_REQUEST(BAD_REQUEST ,"입력한 정보로부터 에러가 발생했습니다."),
     INVALID_REQUEST_RATE(BAD_REQUEST ,"리뷰는 0부터 5까지 입력 받을 수 있습니다."),
     INVALID_REQUEST_SORT(BAD_REQUEST, "해당 방법으로 조회 할 수 없습니다"),
@@ -21,7 +23,7 @@ public enum ErrorCode {
     //조건을  장바구니에서 ORDER로 바꿔야함
     INVALID_REQUEST_REVIEW(BAD_REQUEST, "상품 리뷰를 쓰기 위해선 주문을 하셔야합니다"),
     MISMATCH_REFRESH_TOKEN(BAD_REQUEST, "리프레시 토큰의 유저 정보가 일치하지 않습니다"),
-    CANNOT_FIND_PRODUCT_ID(BAD_REQUEST, "일치하는 상품이 없습니다."),
+//    CANNOT_FIND_PRODUCT_ID(BAD_REQUEST, "일치하는 상품이 없습니다."),
 
     CATEGORY_NOT_FOUND(BAD_REQUEST, "카테고리가 존재하지 않습니다"),
     INVALID_REQUEST_FOR_DATABASE(BAD_REQUEST,"제약조건에 위반되었습니다"),

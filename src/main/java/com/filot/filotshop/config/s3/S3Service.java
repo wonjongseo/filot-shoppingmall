@@ -52,7 +52,8 @@ public class S3Service {
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(Mimetypes.getInstance().getMimetype(multipartFile.getOriginalFilename()));
-        System.out.println("Mimetypes.getInstance().getMimetype(multipartFile.getOriginalFilename()) = " + Mimetypes.getInstance().getMimetype(multipartFile.getOriginalFilename()));
+
+
         byte[] bytes ;
 
         ByteArrayInputStream byteArrayInputStream = null;

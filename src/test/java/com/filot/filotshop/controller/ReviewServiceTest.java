@@ -61,7 +61,7 @@ public class ReviewServiceTest {
     public void 리뷰남긴다() {
         User user = userService.join(userForm);
         System.out.println("productForm = " + productForm);
-        Product product = productService.addProduct(productForm);
+        Product product = productService.addProduct(productForm,null);
 
         Review review = new Review();
         review.setContent(reviewForm.getContent());

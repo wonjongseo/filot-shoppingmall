@@ -47,7 +47,7 @@ public class Product  extends BaseEntity {
     private  int amount;
 
     //    @Lob
-    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product")
     private List<Image> images = new ArrayList<>();
     private String size;
 
@@ -61,7 +61,7 @@ public class Product  extends BaseEntity {
     private Category category;
 
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY )
     private List<Review> reviews = new ArrayList<>();
 
     @ManyToOne

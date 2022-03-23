@@ -3,7 +3,6 @@ package com.filot.filotshop.product.entity;
 import com.filot.filotshop.commons.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 
@@ -15,6 +14,7 @@ public class Image extends BaseEntity {
     @Column(name =  "image_id")
     private Long id;
 
+    private String name;
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)

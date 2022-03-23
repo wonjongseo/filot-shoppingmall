@@ -62,7 +62,7 @@ class serviceTest {
                 .categoryName("BEST")
 
                 .build();
-        Product product = productService.addProduct(form);
+        Product product = productService.addProduct(form,null);
         System.out.println("product = " + product);
     }
 
@@ -105,7 +105,7 @@ class serviceTest {
             .categoryName("BEST")
             .build();
 
-        productService.addProduct(form);
+        productService.addProduct(form,null);
 
 
         Product foundProduct = productRepository.findByName(productName);

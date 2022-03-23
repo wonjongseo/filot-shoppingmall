@@ -13,7 +13,7 @@ public class DetailProductDTO {
         detailProductDTO.setId(product.getId());
         detailProductDTO.setName(product.getName());
         detailProductDTO.setPrice(product.getPrice());
-
+        detailProductDTO.setMainImage(product.getImageUrl());
         detailProductDTO.images = new ArrayList<>();
 
         List<Image> images = product.getImages();
@@ -41,7 +41,7 @@ public class DetailProductDTO {
     private String size;
 
     private List<String> images;
-
+    private String mainImage;
     private String description;
     private List<String> colors;
 

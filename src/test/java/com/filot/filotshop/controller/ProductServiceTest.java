@@ -54,7 +54,7 @@ public class ProductServiceTest {
     @Test
     public void 카테고리로_상품_등록한다(){
         Category parentCategory= categoryService.addCategory(parent);
-        Product product = productService.addProduct(productForm);
+        Product product = productService.addProduct(productForm,null);
     }
     @Test
     public void 카테고리등록한다(){

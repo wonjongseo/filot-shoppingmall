@@ -53,7 +53,7 @@ public class BasketServiceTest {
         productForm = ProductServiceTest.productForm ;
         userForm = UserServiceTest.userForm;
         user = userService.join(userForm);
-        product = productService.addProduct(productForm);
+        product = productService.addProduct(productForm,null);
     }
 
     @Test

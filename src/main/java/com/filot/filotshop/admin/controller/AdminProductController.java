@@ -2,10 +2,7 @@ package com.filot.filotshop.admin.controller;
 
 import com.filot.filotshop.config.s3.S3Service;
 import com.filot.filotshop.config.LocalUploader;
-import com.filot.filotshop.product.entity.ProductDTO;
-import com.filot.filotshop.product.entity.ProductForm;
-import com.filot.filotshop.product.entity.Image;
-import com.filot.filotshop.product.entity.Product;
+import com.filot.filotshop.product.entity.*;
 import com.filot.filotshop.exception.CustomException;
 import com.filot.filotshop.exception.ErrorCode;
 import com.filot.filotshop.product.repository.ImageRepository;
@@ -19,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.activation.MimetypesFileTypeMap;
 import java.io.File;
+import java.util.List;
 
 
 @RestController
@@ -29,9 +27,28 @@ public class AdminProductController {
 
     private final ProductService productService;
     private final S3Service s3Uploader;
-    private final ImageRepository imageRepository;
     private final LocalUploader localUploader;
 
+
+    @DeleteMapping("/{product_id}")
+    public Long deleteProduct(@PathVariable Long product_id) {
+        productService.deleteProduct(product_id);
+        return product_id;
+    }
+
+    @DeleteMapping("/{product_id}/image")
+    public DetailProductDTO deleteImageInProduct(@PathVariable("product_id") Long productId, int index, @RequestHeader(name = "Host") String host) {
+
+        Product product = productService.deleteImageWithIndex(productId, index, host);
+        return DetailProductDTO.createDetailProductDTO(product);
+    }
+
+    @PostMapping("/{product_id}/image")
+    public DetailProductDTO addImageInProduct(@PathVariable("product_id") Long productId, int index, MultipartFile file,@RequestHeader(name = "Host") String host) {
+        Product product = productService.addImageWithIndex(productId, index, file,host);
+
+        return DetailProductDTO.createDetailProductDTO(product);
+    }
 
 
     @PostMapping("/image")
@@ -41,21 +58,10 @@ public class AdminProductController {
             @RequestHeader(value="Host") String host,
             MultipartFile[] files)  {
 
-        System.out.println("product.getName() = " + product.getName());
-        System.out.println("categoryName = " + categoryName);
 
         for (MultipartFile file : files) {
 //            checkMimeType(file);
-            Image image = new Image();
-
-            if(host.equals("localhost:8080")){
-                image.setUrl(localUploader.saveImageInLocalMemory(file));
-            }else{
-                image.setUrl(s3Uploader.upload(file,categoryName));
-            }
-
-            image.setProduct(product);
-            imageRepository.save(image);
+            productService.addDetailImage(file, host, product);
         }
         return ResponseEntity.ok("success");
     }
@@ -84,9 +90,6 @@ public class AdminProductController {
 
     @PostMapping("/")
     public ResponseEntity<ProductDTO> postProduct(ProductForm productForm, MultipartFile file,@RequestHeader(value="Host") String host) {
-        System.out.println("productForm = " + productForm);
-        System.out.println("file = " + file.getOriginalFilename());
-        System.out.println("file.getContentType() = " + file.getContentType());
 
 //        checkMimeType(file);
 
