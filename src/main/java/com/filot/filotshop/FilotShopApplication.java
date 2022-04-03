@@ -1,7 +1,5 @@
 package com.filot.filotshop;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
@@ -12,15 +10,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class FilotShopApplication {
 
 
-    public static final String APPLICATION_LOCATIONS =
-            "spring.config.location=" +
-                    "classpath:application.yml" ;
+    public static final String APPLICATION_LOCATIONS_REMOTE =
+            "spring.config.location=classpath:application.yml" ;
+
+    public static final String APPLICATION_LOCATIONS_LOCAL =
+            "spring.config.location=classpath:local.yml" ;
     public static void main(String[] args) {
 
-//        SpringApplication.run(FilotShopApplication.class, args);
 
         new SpringApplicationBuilder(FilotShopApplication.class)
-                .properties(APPLICATION_LOCATIONS)
+                // if (현재 로컬이라면 (개발중이라면) {
+                //  .properties(APPLICATION_LOCATIONS_LOCAL)
+                // else if (현재 헤로쿠라면 (원격 서버에 올라갔다면)
+                    .properties(APPLICATION_LOCATIONS_REMOTE)
                 .run(args);
     }
 

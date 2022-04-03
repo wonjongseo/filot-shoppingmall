@@ -1,7 +1,5 @@
 package com.filot.filotshop.product.service;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.filot.filotshop.config.LocalUploader;
 import com.filot.filotshop.config.s3.S3Service;
 import com.filot.filotshop.product.entity.Image;
 import com.filot.filotshop.product.entity.ProductDTO;
@@ -18,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -30,7 +27,6 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
-    private final LocalUploader localUploader;
     private final S3Service s3Uploader;
     private final ImageRepository imageRepository;
 
@@ -53,8 +49,8 @@ public class ProductService {
         product.setCategory(category);
 
         return  productRepository.save(product);
-
     }
+
 
 
     @Transactional
@@ -68,28 +64,9 @@ public class ProductService {
     }
 
 
-    @Transactional
-    public Product deleteImageWithIndex(Long productId, int index, String host) {
-        Product product = findByIdOrThrowError(productId);
-        List<Image> images = product.getImages();
 
-        if (images.size() <= index) {
-            throw new CustomException(ErrorCode.INVALID_INDEX);
-        }
-        Image image = images.get(index);
 
-        if (host.equals("localhost:8080")) {
-
-        }else{
-            s3Uploader.delete(image.getName());
-        }
-
-        imageRepository.delete(image);
-        images.remove(index);
-        return product;
-    }
-
-    @Transactional
+    /*@Transactional
     public Product addImageWithIndex(Long productId, int index, MultipartFile file,String host) {
 
         Product product = findByIdOrThrowError(productId);
@@ -110,7 +87,34 @@ public class ProductService {
 
 
         return product;
+    }*/
+
+
+    @Transactional
+    public Product changeMainImage(Long productId, MultipartFile file, String host) {
+        Product product = findByIdOrThrowError(productId);
+
+        int i = product.getImageUrl().lastIndexOf("com/");
+        String mainImageUrl = product.getImageUrl().substring(i+4);
+        s3Uploader.delete(mainImageUrl);
+
+        String newMainImageUrl = s3Uploader.upload(file, product.getCategory().getName());
+        product.setImageUrl(newMainImageUrl);
+
+        return product;
     }
+
+    @Transactional
+    public void addDetailImage(MultipartFile file,String host, Product product) {
+        Image image = new Image();
+
+        image.setUrl(s3Uploader.upload(file,product.getCategory().getName()));
+        image.setName(product.getCategory().getName() + "/" + file.getOriginalFilename());
+        image.setProduct(product);
+        imageRepository.save(image);
+
+    }
+
 
     public List<Product> findAllProductsForAdmin(){
         return productRepository.findAll();
@@ -139,18 +143,7 @@ public class ProductService {
 
     }
 
-    @Transactional
-    public void addDetailImage(MultipartFile file,String host, Product product) {
-        Image image = new Image();
 
-        if(host.equals("localhost:8080")){
-            image.setUrl(localUploader.saveImageInLocalMemory(file));
-        }else{
-            image.setUrl(s3Uploader.upload(file,product.getCategory().getName()));
-        }
-        image.setName(product.getCategory().getName() + "/" + file.getOriginalFilename());
-        image.setProduct(product);
-        imageRepository.save(image);
 
-    }
+
 }

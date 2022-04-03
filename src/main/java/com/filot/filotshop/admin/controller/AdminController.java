@@ -1,7 +1,6 @@
 package com.filot.filotshop.admin.controller;
 
 import com.filot.filotshop.config.s3.S3Service;
-import com.filot.filotshop.config.LocalUploader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/admin")
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
-
+// 000042.jpg
     private final S3Service s3Service;
-    private final LocalUploader localUploader;
 
     @PostMapping("/banners")
     public ResponseEntity<String> postBannerUrl(MultipartFile bannerFile, HttpServletRequest request) {
@@ -27,11 +25,6 @@ public class AdminController {
         String banner = "";
 
         String bannerName = "banner/banner.jpg";
-
-        if (host.equals("localhost:8080")) {
-            localUploader.saveImageInLocalMemory(bannerFile,bannerName);
-            return ResponseEntity.ok(banner);
-        }
 
         banner= s3Service.uploadBanner(bannerFile);
         return ResponseEntity.ok(banner);

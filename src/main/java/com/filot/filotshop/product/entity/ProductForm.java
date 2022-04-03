@@ -17,5 +17,4 @@ public class ProductForm {
     private String color;
     private String categoryName;
 
-
 }

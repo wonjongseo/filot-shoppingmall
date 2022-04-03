@@ -26,7 +26,6 @@ public class Product  extends BaseEntity {
         product.setPrice(productForm.getPrice());
         product.setSize(productForm.getSize());
         product.setColor(productForm.getColor());
-
         return product;
     }
 

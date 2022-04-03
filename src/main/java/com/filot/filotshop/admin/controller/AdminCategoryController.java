@@ -28,5 +28,9 @@ public class AdminCategoryController {
         return ResponseEntity.status(200).body(categoryDTO);
     }
 
+    /*
+   TODO
+   delete category
+     */
 
 }

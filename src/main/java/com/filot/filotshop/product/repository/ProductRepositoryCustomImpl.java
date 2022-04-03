@@ -72,7 +72,7 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
         List<Object[]>  productObjs = em.createQuery(jpql)
                 .setParameter("name",name)
                 .setFirstResult( (page - 1) * SHOW_PRODUCT_COUNT)
-                .setMaxResults( ((page - 1) * SHOW_PRODUCT_COUNT) + SHOW_PRODUCT_COUNT)
+                .setMaxResults(SHOW_PRODUCT_COUNT)
                 .getResultList();
 
         return createProductDTO(productObjs);
