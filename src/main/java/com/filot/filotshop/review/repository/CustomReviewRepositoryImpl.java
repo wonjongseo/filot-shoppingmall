@@ -17,7 +17,7 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository{
 
     private final EntityManager em;
 
-    public final String SELECT_REVIEWDTO = "select r.id, r.title,r.rate,r.createAt,u.name";
+    public final String SELECT_REVIEWDTO = "select r.id, r.title,r.rate,r.createAt,u.name ,r.imageUrl";
     private List<ReviewDTO> createReviewDTO(List<Object[]> reviews){
 
         List<ReviewDTO> reviewDTOS = new ArrayList<>();
@@ -28,6 +28,7 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository{
             reviewDTO.setRate((Integer) review[2]);
             reviewDTO.setCreatedAt((LocalDateTime) review[3]);
             reviewDTO.setUserName((String) review[4]);
+            reviewDTO.setImageUrl((String) review[5]);
             reviewDTOS.add(reviewDTO);
         }
 
@@ -42,7 +43,7 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository{
         List<Object[]> reviewDTOS = em.createQuery(SELECT_REVIEWDTO + " From Review r inner join r.user u inner join  r.product p where  p.id = :productId")
                 .setParameter("productId", productId)
                 .setFirstResult((page - 1) * SHOW_REVIEW_COUNT)
-                .setMaxResults( ((page - 1) * SHOW_REVIEW_COUNT) + SHOW_REVIEW_COUNT)
+                .setMaxResults( SHOW_REVIEW_COUNT)
                 .getResultList();
 
         System.out.println("reviewDTOS.size() = " + reviewDTOS.size());

@@ -11,10 +11,10 @@ import com.filot.filotshop.exception.ErrorCode;
 import com.filot.filotshop.user.repository.UserRepository;
 import com.filot.filotshop.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -27,12 +27,15 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final UserRepository userRepository;
 
-    // ok
+
+
     @PostMapping("/products/{product_id}/reviews")
     public Long addReview(HttpServletRequest rep,
-                                    @PathVariable(name = "product_id") Long productId,
-                                    @RequestBody ReviewForm reviewForm
+                          @PathVariable(name = "product_id") Long productId,
+                           ReviewForm reviewForm,
+                           MultipartFile file
     ) {
+
         String userEmail = jwtTokenProvider.getUserEmail(rep);
 
         User user = userRepository.findByEmail(userEmail)
@@ -50,7 +53,7 @@ public class ReviewController {
         if (!flag) {
             throw new CustomException(ErrorCode.INVALID_REQUEST_REVIEW);
         }
-        return reviewService.createReviewWithUserEmailAndProductId(reviewForm, userEmail, productId);
+        return reviewService.createReviewWithUserEmailAndProductId(reviewForm, user, productId,file);
     }
 
     @GetMapping("/products/{product_id}/reviews")
@@ -58,7 +61,7 @@ public class ReviewController {
             @PathVariable(name = "product_id") Long productId,
             @RequestParam(required = false) int page) {
 
-        return reviewService.getReviewDTOsByProductId(productId, page);
+        return reviewService.getReviewDTOListByProductId(productId, page);
     }
 
 //12
@@ -83,8 +86,9 @@ public class ReviewController {
 
     }
 
-    @DeleteMapping("/products/{product_id}/reviews")
-    public ResponseEntity<Long> deleteReview(@RequestParam(name = "review_id") Long review_id, HttpServletRequest request) {
+    @DeleteMapping("/products/reviews/{review_id}")
+    public ResponseEntity<Long> deleteReview(@PathVariable(name = "review_id") Long review_id, HttpServletRequest request) {
+
         String userEmail = jwtTokenProvider.getUserEmail(request);
         User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 

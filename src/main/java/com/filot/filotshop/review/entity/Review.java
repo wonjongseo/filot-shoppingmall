@@ -28,6 +28,7 @@ public class Review extends BaseEntity {
         review.setRate(reviewForm.getRate());
         review.setUser(user);
         review.setProduct(product);
+
         return review;
     }
 
@@ -45,6 +46,9 @@ public class Review extends BaseEntity {
 
     @Lob
     private String content;
+
+    @Column
+    private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
@@ -82,5 +86,9 @@ public class Review extends BaseEntity {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

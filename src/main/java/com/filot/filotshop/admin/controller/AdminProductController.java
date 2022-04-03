@@ -32,7 +32,7 @@ public class AdminProductController {
 
     // 상품 등록
     @PostMapping("/")
-    public ResponseEntity<ProductDTO> postProduct(ProductForm productForm, MultipartFile file,@RequestHeader(value="Host") String host) {
+    public ResponseEntity<ProductDTO> postProduct(ProductForm productForm, MultipartFile file) {
 
 //        checkMimeType(file);
         String url =s3Uploader.upload(file, productForm.getCategoryName());
@@ -50,10 +50,7 @@ public class AdminProductController {
 
 
 
-
-
     // 메인 이미지 추가
-
     @PutMapping("/{product_id}/image")
     public DetailProductDTO changeMainImage(@PathVariable("product_id") Long productId,  MultipartFile file,@RequestHeader(name = "Host") String host) {
         Product product = productService.changeMainImage(productId, file,host);
@@ -94,13 +91,13 @@ public class AdminProductController {
     @PostMapping("/image")
     public ResponseEntity<String> uploads(
             @RequestParam("product_id") Product product ,
-            @RequestHeader(value="Host") String host,
+
             MultipartFile[] files)  {
 
 
         for (MultipartFile file : files) {
 //            checkMimeType(file);
-            productService.addDetailImage(file, host, product);
+            productService.addDetailImages(file, product);
         }
         return ResponseEntity.ok("success");
     }

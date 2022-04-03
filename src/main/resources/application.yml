@@ -3,8 +3,8 @@ server:
 cloud:
   aws:
     credentials:
-      accessKey: ${AWS_ACCESS_KEY}
-      secretKey: ${AWS_SECRET_KEY}
+      accessKey: AKIA2LW236WZK26AYGXW
+      secretKey: 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
     s3:
       bucket: filotshopping
     region:
@@ -13,21 +13,21 @@ cloud:
       auto: false
 spring:
   redis:
-    host: ${REDIS_HOST}
-    port: ${REDIS_PORT}
+    host: localhost
+    port: 6379
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${CLEARDB_DATABASE_URL}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
+    url: jdbc:mysql://localhost:3306/FILOT_SHOP
+    username: root
+    password: dnjswhdtj1!
 
 
 
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
+    username: visionwill3322@gmail.com
+    password: pozohiqjzzcoaqjg
     properties:
       mail:
         smtp:

@@ -1,4 +1,5 @@
 package com.filot.filotshop.review.service;
+import com.filot.filotshop.config.s3.S3Service;
 import com.filot.filotshop.review.entity.ReviewDTO;
 import com.filot.filotshop.review.entity.ReviewForm;
 import com.filot.filotshop.product.entity.Product;
@@ -11,6 +12,7 @@ import com.filot.filotshop.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -19,30 +21,38 @@ import java.util.List;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ReviewService {
-
+    private final S3Service s3Uploader;
     private final ReviewRepository reviewRepository;
-    private final UserRepository userRepository;
     private final EntityManager em;
 
     @Transactional
     public Long removeReview(Long id) {
         Review review = reviewRepository.getById(id);
-        reviewRepository.delete(review);
+        int i = review.getImageUrl().lastIndexOf("com/");
+
+        String removeImageName = review.getImageUrl().substring(i + 4);
+        s3Uploader.delete(removeImageName);
+
+        reviewRepository.deleteById(id);
         return review.getId();
     }
 
+
+
+
     @Transactional
-    public Long createReviewWithUserEmailAndProductId(ReviewForm reviewForm, String userEmail, Long productId) {
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    public Long createReviewWithUserEmailAndProductId(ReviewForm reviewForm, User user, Long productId, MultipartFile file) {
 
         Product product = em.getReference(Product.class, productId);
+        String url = s3Uploader.upload(file, "review");
+
         Review review = Review.createReview(reviewForm, user, product);
 
+        review.setImageUrl(url);
         return reviewRepository.save(review).getId();
     }
 
-    public List<ReviewDTO> getReviewDTOsByProductId (Long productId,int page){
+    public List<ReviewDTO> getReviewDTOListByProductId(Long productId, int page){
         return reviewRepository.getAllReviewDTO(productId,page);
     }
 
@@ -50,7 +60,6 @@ public class ReviewService {
     public void update(Long reviewId, ReviewForm reviewForm) {
 
         Review review = reviewRepository.getById(reviewId);
-//{{base}}/products/109/reviews/12
         review.setContent(reviewForm.getContent());
         review.setRate(reviewForm.getRate());
         review.setTitle(reviewForm.getTitle());

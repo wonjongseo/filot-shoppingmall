@@ -33,7 +33,7 @@ public class ProductService {
     public final static int SHOW_PRODUCT_COUNT = 4;
 
     @Value("${cloud.aws.s3.bucket}")
-    public String bucket;  // S3 버킷
+    public String bucket;
 
     private Product findByIdOrThrowError(Long productId){
         return  productRepository.findById(productId)
@@ -65,31 +65,7 @@ public class ProductService {
 
 
 
-
-    /*@Transactional
-    public Product addImageWithIndex(Long productId, int index, MultipartFile file,String host) {
-
-        Product product = findByIdOrThrowError(productId);
-        List<Image> images = product.getImages();
-
-        Image newImage = new Image();
-
-        if (host.equals("localhost:8080")) {
-            newImage.setUrl(localUploader.saveImageInLocalMemory(file));
-        } else {
-            newImage.setUrl(s3Uploader.upload(file, product.getCategory().getName()));
-        }
-
-        images.add(index, newImage);
-        newImage.setName(product.getCategory().getName() + "/" + file.getOriginalFilename());
-        newImage.setProduct(product);
-        imageRepository.save(newImage);
-
-
-        return product;
-    }*/
-
-
+    // 메인이미지 변경
     @Transactional
     public Product changeMainImage(Long productId, MultipartFile file, String host) {
         Product product = findByIdOrThrowError(productId);
@@ -104,8 +80,10 @@ public class ProductService {
         return product;
     }
 
+
+    // 디테일 이미지들 추가
     @Transactional
-    public void addDetailImage(MultipartFile file,String host, Product product) {
+    public void addDetailImages(MultipartFile file, Product product) {
         Image image = new Image();
 
         image.setUrl(s3Uploader.upload(file,product.getCategory().getName()));
@@ -125,13 +103,15 @@ public class ProductService {
 
 
 
+    // 상품 제거
+
     @Transactional
     public void deleteProduct(Long productId) {
         Product product = findByIdOrThrowError(productId);
 
         int lastIndexOf = product.getImageUrl().lastIndexOf(".com");
         String deletedFileName = product.getImageUrl().substring(lastIndexOf + 5);
-        System.out.println("deletedFileName = " + deletedFileName);
+
         s3Uploader.delete(deletedFileName);
         List<Image> images = product.getImages();
         for (Image image : images) {
