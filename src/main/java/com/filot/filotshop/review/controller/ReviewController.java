@@ -56,14 +56,22 @@ public class ReviewController {
         return reviewService.createReviewWithUserEmailAndProductId(reviewForm, user, productId,file);
     }
 
-    @GetMapping("/products/{product_id}/reviews")
+/*    @GetMapping("/products/{product_id}/reviews")
     public List<ReviewDTO> showReviewByProductId(
             @PathVariable(name = "product_id") Long productId,
             @RequestParam(required = false) int page) {
 
         return reviewService.getReviewDTOListByProductId(productId, page);
-    }
+    }*/
 
+
+    // 프론트 요청 페이지 없이
+    @GetMapping("/products/{product_id}/reviews")
+    public List<ReviewDTO> showReviewByProductId(
+            @PathVariable(name = "product_id") Long productId) {
+
+        return reviewService.getReviewDTOListByProductId(productId);
+    }
 //12
     @PutMapping("/products/{product_id}/reviews/{review_id}")
     public ResponseEntity<ReviewForm> updateReview(

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface CustomReviewRepository {
      List<ReviewDTO> getAllReviewDTO(Long productId,int page);
+     List<ReviewDTO> getAllReviewDTO(Long productId);
 }

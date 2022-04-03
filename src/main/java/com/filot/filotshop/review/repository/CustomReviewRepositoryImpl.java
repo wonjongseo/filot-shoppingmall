@@ -51,5 +51,18 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository{
     }
 
 
+    @Override
+    public List<ReviewDTO> getAllReviewDTO(Long productId) {
+
+
+        List<Object[]> reviewDTOS = em.createQuery(SELECT_REVIEWDTO + " From Review r inner join r.user u inner join  r.product p where  p.id = :productId")
+                .setParameter("productId", productId)
+                .getResultList();
+
+        System.out.println("reviewDTOS.size() = " + reviewDTOS.size());
+        return  createReviewDTO(reviewDTOS);
+    }
+
+
 }
 

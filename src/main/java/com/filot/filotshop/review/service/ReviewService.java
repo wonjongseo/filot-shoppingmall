@@ -56,6 +56,9 @@ public class ReviewService {
         return reviewRepository.getAllReviewDTO(productId,page);
     }
 
+    public List<ReviewDTO> getReviewDTOListByProductId(Long productId){
+        return reviewRepository.getAllReviewDTO(productId);
+    }
     @Transactional
     public void update(Long reviewId, ReviewForm reviewForm) {
 
