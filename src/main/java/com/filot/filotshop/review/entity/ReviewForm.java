@@ -8,6 +8,5 @@ import java.time.LocalDateTime;
 public class ReviewForm {
     private String content;
     private String title;
-    private Integer rate;
-
+    private Float rate;
 }

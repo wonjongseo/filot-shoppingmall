@@ -31,7 +31,6 @@ public class ReviewController {
 
     @PostMapping("/products/{product_id}/reviews")
     public Long addReview(HttpServletRequest rep, @PathVariable(name = "product_id") Long productId, ReviewForm reviewForm, MultipartFile file) {
-
         System.out.println("reviewForm = " + reviewForm);
         System.out.println("file.getOriginalFilename() = " + file.getOriginalFilename());
 

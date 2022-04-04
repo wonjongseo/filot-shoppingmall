@@ -47,7 +47,7 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository{
                 .setMaxResults( SHOW_REVIEW_COUNT)
                 .getResultList();
 
-        System.out.println("reviewDTOS.size() = " + reviewDTOS.size());
+
         return  createReviewDTO(reviewDTOS);
     }
 
@@ -60,7 +60,7 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository{
                 .setParameter("productId", productId)
                 .getResultList();
 
-        System.out.println("reviewDTOS.size() = " + reviewDTOS.size());
+
         return  createReviewDTO(reviewDTOS);
     }
 
