@@ -53,7 +53,7 @@ public class ReviewServiceTest {
         reviewForm = new ReviewForm();
         reviewForm.setContent("Hello~~ Hello~~ Hello~~ Hello~~ ");
         reviewForm.setTitle("Hello!!");
-        reviewForm.setRate(5);
+        reviewForm.setRate(5.0F);
 
     }
 

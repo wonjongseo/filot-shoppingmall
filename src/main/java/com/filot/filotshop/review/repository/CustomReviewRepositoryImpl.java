@@ -25,7 +25,7 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository{
             ReviewDTO reviewDTO = new ReviewDTO();
             reviewDTO.setId((Long) review[0]);
             reviewDTO.setTitle((String) review[1]);
-            reviewDTO.setRate((Integer) review[2]);
+            reviewDTO.setRate((Float) review[2]);
             reviewDTO.setCreatedAt((LocalDateTime) review[3]);
             reviewDTO.setUserName((String) review[4]);
             reviewDTO.setImageUrl((String) review[5]);

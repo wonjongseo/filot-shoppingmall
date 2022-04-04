@@ -39,7 +39,7 @@ public class Review extends BaseEntity {
     private Long id;
 
     @Column(columnDefinition = "int(2) default 1")
-    private int rate;
+    private Float rate;
 
     @Column(nullable = false)
     private String title;
@@ -72,8 +72,8 @@ public class Review extends BaseEntity {
             product.getReviews().add(this);
         }
     }
-    public void setRate(int rate) {
-        if (rate < 0 || rate > 5) {
+    public void setRate(float rate) {
+        if (rate < 0F || rate > 5F) {
             throw new CustomException(ErrorCode.INVALID_REQUEST_RATE);
         }
 

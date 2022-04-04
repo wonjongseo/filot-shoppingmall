@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class ReviewDTO {
     private Long id;
     private String title;
-    private int rate;
+    private Float rate;
     private LocalDateTime createdAt;
     private String userName;
     private String imageUrl;
