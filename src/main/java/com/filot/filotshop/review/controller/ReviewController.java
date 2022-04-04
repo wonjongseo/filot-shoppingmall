@@ -37,12 +37,14 @@ public class ReviewController {
     ) {
 
         String userEmail = jwtTokenProvider.getUserEmail(rep);
-
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
+        System.out.println("user.getEmail() = " + user.getEmail());
+
         List<Basket> baskets = user.getBaskets();
 
+        System.out.println("baskets.size() = " + baskets.size());
         boolean flag = false;
         for (Basket basket : baskets) {
             if(basket.getProduct().getId() == productId ){
@@ -74,16 +76,14 @@ public class ReviewController {
     }
 //12
     @PutMapping("/products/{product_id}/reviews/{review_id}")
-    public ResponseEntity<ReviewForm> updateReview(
-                                    @PathVariable(name = "review_id") Long  review_id,
-                                    HttpServletRequest request,
-                                    @RequestBody ReviewForm reviewForm
-    ) {
+    public ResponseEntity<ReviewForm> updateReview(@PathVariable(name = "review_id") Long  review_id, HttpServletRequest request, @RequestBody ReviewForm reviewForm) {
+        
         String userEmail = jwtTokenProvider.getUserEmail(request);
         User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
+        System.out.println("user.getEmail() = " + user.getEmail());
         List<Review> reviews = user.getReviews();
 
+        System.out.println("reviews.size() = " + reviews.size());
         for (Review review : reviews) {
             if (review.getId() == review_id) {
                 reviewService.update(review.getId(), reviewForm);
