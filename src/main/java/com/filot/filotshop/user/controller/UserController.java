@@ -6,11 +6,8 @@ import com.filot.filotshop.config.secuity.JwtTokenProvider;
 import com.filot.filotshop.basket.entity.BasketDTO;
 import com.filot.filotshop.exception.CustomException;
 import com.filot.filotshop.exception.ErrorCode;
-import com.filot.filotshop.user.entity.UpdateDTO;
-import com.filot.filotshop.user.entity.User;
+import com.filot.filotshop.user.entity.*;
 import com.filot.filotshop.basket.service.BasketService;
-import com.filot.filotshop.user.entity.UserDTO;
-import com.filot.filotshop.user.entity.findPasswordDTO;
 import com.filot.filotshop.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -21,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URISyntaxException;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -38,9 +35,9 @@ public class UserController {
 
 
     @PostMapping("/password/email")
-    public ResponseEntity<String> findPassword(@RequestBody Map<String, String> emailOjb, HttpServletRequest request) {
+    public ResponseEntity<String> findPassword(@RequestBody Map<String, String> emailForm, HttpServletRequest request) {
 
-        String email = emailOjb.get("email");
+        String email = emailForm.get("email");
 
         User user = userService.findUserByEmail(email);
 
@@ -48,23 +45,13 @@ public class UserController {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
         String authKey = mailService.mailSend(email, MailService.FIND_PASSWORD_MAIL);
-        String host = request.getHeader("host");
+        HttpSession httpSession = request.getSession(true);
 
-//        if (host.equals("localhost:8080")) {
-//            System.out.println("In local");
-            ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-            valueOperations.set(authKey, user.getEmail());
-//        }
-//        else {
-//            System.out.println("In heroku");
-//            try {
-//                Jedis resource = herokuRedisService.jedisPool().getResource();
-//                resource.set(authKey, user.getEmail());
-//            } catch (URISyntaxException e) {
-//                e.print/StackTrace();
-//                System.out.println("e.getMessage() = " + e.getMessage());
-//            }
-//        }
+
+//        httpSession.setAttribute("emailForm", emailForm);
+        httpSession.setAttribute("authKey", authKey);
+
+
 
         return ResponseEntity.status(200).body(authKey);
     }
@@ -73,27 +60,14 @@ public class UserController {
 
     @PostMapping("/password/email/code")
     public ResponseEntity<String> verifyCodeForPassword(@RequestBody findPasswordDTO updateDTO,HttpServletRequest request) {
-        String host = request.getHeader("host");
-        String valueEmail = null;
-//        if (host.equals("localhost:8080")) {
-//            System.out.println("In local" );
-            ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-            valueEmail = valueOperations.get(updateDTO.getCode());    
-//        }
-//        else {
-//            System.out.println("In Heroku");
-//            Jedis resource = null;
-//            try {
-//                resource = herokuRedisService.jedisPool().getResource();
-//            } catch (URISyntaxException e) {
-//                e.printStackTrace();
-//                System.out.println("e.getMessage() = " + e.getMessage());
-//            }
-//            valueEmail = resource.get(updateDTO.getCode());
-//        }
-        
 
-        if (updateDTO.getEmail().equals(valueEmail)) {
+        HttpSession httpSession = request.getSession(true);
+        String authKey = (String) httpSession.getAttribute("authKey");
+
+        System.out.println("authKey = " + authKey);
+        System.out.println("updateDTO = " + updateDTO);
+
+        if (updateDTO.getCode().equals(authKey)) {
             userService.changePassword(updateDTO.getEmail(), updateDTO.getNewPassword());
         } else{
             throw new CustomException(ErrorCode.MISMATCH_VERIFY_CODE);
