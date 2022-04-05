@@ -1,4 +1,8 @@
 package com.filot.filotshop.config.secuity;
+import com.filot.filotshop.exception.CustomException;
+import com.filot.filotshop.exception.ErrorCode;
+import com.filot.filotshop.user.entity.User;
+import com.filot.filotshop.user.repository.UserRepository;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,10 +25,17 @@ public class JwtTokenProvider {
     private static String sampleSecretKey = "M@MK#KAKASKDASMDKASDKAMSKDMK!#NDJANCJSKQWMDKASD";
     private long tokenValidMiliseconds = 1000L * 60 * 60 * 24 * 365;
     private final UserDetailsService userDetailsService;
-
+    private  final UserRepository userRepository;
     public static String getUserEmail(HttpServletRequest request){
         String token = resolveToken(request);
         return getUserPk(token);
+    }
+
+
+    public  User getUserByToken(HttpServletRequest request) {
+        String userEmail = getUserEmail(request);
+
+        return userRepository.findByEmail(userEmail).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
     }
 
     @PostConstruct

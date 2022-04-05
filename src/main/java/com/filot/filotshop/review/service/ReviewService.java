@@ -30,14 +30,12 @@ public class ReviewService {
         Review review = reviewRepository.getById(id);
         int i = review.getImageUrl().lastIndexOf("com/");
 
-        String removeImageName = review.getImageUrl().substring(i + 4);
+        String removeImageName = s3Uploader.getFileName(review.getImageUrl());
         s3Uploader.delete(removeImageName);
 
         reviewRepository.deleteById(id);
         return review.getId();
     }
-
-
 
 
     @Transactional
@@ -59,6 +57,7 @@ public class ReviewService {
     public List<ReviewDTO> getReviewDTOListByProductId(Long productId){
         return reviewRepository.getAllReviewDTO(productId);
     }
+
     @Transactional
     public void update(Long reviewId, ReviewForm reviewForm) {
 
@@ -70,13 +69,14 @@ public class ReviewService {
     }
 
     @Transactional
-    public void update(Long reviewId,MultipartFile multipartFile) {
-
+    public void update(Long reviewId,MultipartFile file) {
 
         Review review = reviewRepository.getById(reviewId);
-        /*review.setContent(reviewForm.getContent());
-        review.setRate(reviewForm.getRate());
-        review.setTitle(reviewForm.getTitle());*/
+        String deletedFileName = s3Uploader.getFileName(review.getImageUrl());
 
+        s3Uploader.delete(deletedFileName);
+
+        String url = s3Uploader.upload(file, "review");
+        review.setImageUrl(url);
     }
 }

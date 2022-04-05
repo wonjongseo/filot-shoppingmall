@@ -30,6 +30,12 @@ public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;  // S3 버킷 이름
 
+    public  String getFileName(String url) {
+        System.out.println("url = " + url);
+        int lastIndexOf = url.lastIndexOf("com/");
+        return url.substring(lastIndexOf + 4);
+    }
+
     public String delete(String fileName) {
         System.out.println("fileName = " + fileName);
 

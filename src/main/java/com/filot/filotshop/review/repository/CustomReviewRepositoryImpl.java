@@ -17,7 +17,7 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository{
 
     private final EntityManager em;
 
-    public final String SELECT_REVIEWDTO = "select r.id, r.title,r.rate,r.createAt,u.name ,r.imageUrl, u.email";
+    public final String SELECT_REVIEWDTO = "select r.id, r.title,r.rate,r.createAt,u.name ,r.imageUrl, u.email, r.content";
     private List<ReviewDTO> createReviewDTO(List<Object[]> reviews){
 
         List<ReviewDTO> reviewDTOS = new ArrayList<>();
@@ -30,6 +30,7 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository{
             reviewDTO.setUserName((String) review[4]);
             reviewDTO.setImageUrl((String) review[5]);
             reviewDTO.setEmail((String) review[6]);
+            reviewDTO.setContent((String) review[7]);
             reviewDTOS.add(reviewDTO);
         }
 

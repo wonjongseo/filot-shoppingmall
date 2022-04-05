@@ -32,14 +32,11 @@ public class ReviewController {
     @PostMapping("/products/{product_id}/reviews")
     public Long addReview(HttpServletRequest rep, @PathVariable(name = "product_id") Long productId, ReviewForm reviewForm, MultipartFile file) {
 
-        String userEmail = jwtTokenProvider.getUserEmail(rep);
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        User user = jwtTokenProvider.getUserByToken(rep);
 
 
         List<Basket> baskets = user.getBaskets();
 
-        System.out.println("baskets.size() = " + baskets.size());
         boolean flag = false;
         for (Basket basket : baskets) {
             if(basket.getProduct().getId() == productId ){
@@ -65,13 +62,12 @@ public class ReviewController {
 //12
     @PutMapping("/products/{product_id}/reviews/{review_id}")
     public ResponseEntity<ReviewForm> updateReview(@PathVariable(name = "review_id") Long  review_id, HttpServletRequest request, @RequestBody ReviewForm reviewForm) {
-        
-        String userEmail = jwtTokenProvider.getUserEmail(request);
-        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-        System.out.println("user.getEmail() = " + user.getEmail());
+
+
+        User user = jwtTokenProvider.getUserByToken(request);
+
         List<Review> reviews = user.getReviews();
 
-        System.out.println("reviews.size() = " + reviews.size());
         for (Review review : reviews) {
             if (review.getId() == review_id) {
                 reviewService.update(review.getId(), reviewForm);
@@ -83,14 +79,12 @@ public class ReviewController {
     }
 
     @PutMapping("/products/{product_id}/reviews/{review_id}/image")
-    public ResponseEntity<String> updateReviewImage(@PathVariable(name = "review_id") Long review_id, HttpServletRequest request, MultipartFile file) {
-        System.out.println("file = " + file.getOriginalFilename());
-        String userEmail = jwtTokenProvider.getUserEmail(request);
-        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-        System.out.println("user.getEmail() = " + user.getEmail());
+    public ResponseEntity<String> updateReviewImage(@PathVariable(name = "review_id") Long review_id, HttpServletRequest request, @RequestBody MultipartFile file) {
+
+        User user = jwtTokenProvider.getUserByToken(request);
+
         List<Review> reviews = user.getReviews();
 
-        System.out.println("reviews.size() = " + reviews.size());
         for (Review review : reviews) {
             if (review.getId() == review_id) {
                 reviewService.update(review.getId(), file);
