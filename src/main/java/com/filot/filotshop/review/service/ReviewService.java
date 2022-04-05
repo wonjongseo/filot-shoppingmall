@@ -74,9 +74,9 @@ public class ReviewService {
 
 
         Review review = reviewRepository.getById(reviewId);
-        review.setContent(reviewForm.getContent());
+        /*review.setContent(reviewForm.getContent());
         review.setRate(reviewForm.getRate());
-        review.setTitle(reviewForm.getTitle());
+        review.setTitle(reviewForm.getTitle());*/
 
     }
 }
