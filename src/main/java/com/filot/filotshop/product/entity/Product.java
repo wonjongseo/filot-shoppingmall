@@ -1,5 +1,6 @@
 package com.filot.filotshop.product.entity;
 
+import com.filot.filotshop.basket.entity.Basket;
 import com.filot.filotshop.category.entity.Category;
 import com.filot.filotshop.commons.entity.BaseEntity;
 import com.filot.filotshop.commons.entity.Discount;
@@ -59,8 +60,10 @@ public class Product  extends BaseEntity {
     @JoinColumn(name = "CATEGORY_PRODUCT_ID")
     private Category category;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    List<Basket> baskets = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY )
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
     @ManyToOne
