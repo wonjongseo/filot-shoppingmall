@@ -1,17 +1,10 @@
 server:
   port: 8080
-cloud:
-  aws:
-    credentials:
-      accessKey: ${AWS_ACCESS_KEY}
-      secretKey: ${AWS_SECRET_KEY}
-    s3:
-      bucket: filotshopping
-    region:
-      static: ap-northeast-2
-    stack:
-      auto: false
+
 spring:
+  profiles:
+    include:
+      - local
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
@@ -52,9 +45,14 @@ logging:
   level:
     org.hibernate.SQL: debug
 
-
-
-
-
-
-
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    s3:
+      bucket: filotshopping
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

@@ -31,16 +31,11 @@ public class ReviewController {
 
     @PostMapping("/products/{product_id}/reviews")
     public Long addReview(HttpServletRequest rep, @PathVariable(name = "product_id") Long productId, ReviewForm reviewForm, MultipartFile file) {
-        System.out.println("Post Review Contriller");
-
-        System.out.println("reviewForm = " + reviewForm);
-        System.out.println("file.getOriginalFilename() = " + file.getOriginalFilename());
 
         String userEmail = jwtTokenProvider.getUserEmail(rep);
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        System.out.println("user.getEmail() = " + user.getEmail());
 
         List<Basket> baskets = user.getBaskets();
 
@@ -86,6 +81,27 @@ public class ReviewController {
         throw new CustomException(ErrorCode.NOT_AUTHORIZATION);
 
     }
+
+    @PutMapping("/products/{product_id}/reviews/{review_id}/image")
+    public ResponseEntity<String> updateReviewImage(@PathVariable(name = "review_id") Long review_id, HttpServletRequest request, MultipartFile file) {
+        System.out.println("file = " + file.getOriginalFilename());
+        String userEmail = jwtTokenProvider.getUserEmail(request);
+        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        System.out.println("user.getEmail() = " + user.getEmail());
+        List<Review> reviews = user.getReviews();
+
+        System.out.println("reviews.size() = " + reviews.size());
+        for (Review review : reviews) {
+            if (review.getId() == review_id) {
+                reviewService.update(review.getId(), file);
+                return ResponseEntity.status(HttpStatus.OK).body(file.getOriginalFilename());
+            }
+        }
+        throw new CustomException(ErrorCode.NOT_AUTHORIZATION);
+
+    }
+
+
 
     @DeleteMapping("/products/reviews/{review_id}")
     public ResponseEntity<Long> deleteReview(@PathVariable(name = "review_id") Long review_id, HttpServletRequest request) {

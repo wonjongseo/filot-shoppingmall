@@ -68,4 +68,15 @@ public class ReviewService {
         review.setTitle(reviewForm.getTitle());
 
     }
+
+    @Transactional
+    public void update(Long reviewId,MultipartFile multipartFile) {
+
+
+        Review review = reviewRepository.getById(reviewId);
+        review.setContent(reviewForm.getContent());
+        review.setRate(reviewForm.getRate());
+        review.setTitle(reviewForm.getTitle());
+
+    }
 }

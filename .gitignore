@@ -6,6 +6,8 @@ target/
 /ppt
 src/main/java/com/coding/*
 #src/main/java/com/filot/filotshop/learning
+
+/src/main/resources/application-local.yml
 ### STS ###
 .apt_generated
 .classpath
